@@ -1,9 +1,9 @@
-import wrds
-import pandas as pd
-
 """
 build a PERMNO <-> GVKEY link table (via WRDS's CRSP/Compustat Merged linking table), and provide a reusable function to attach *date-correct* GVKEY to any dataframe of (permno, date) rows
 """
+
+import wrds
+import pandas as pd
 
 db = wrds.Connection(wrds_username='deepshah')
 
