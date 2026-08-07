@@ -39,8 +39,8 @@ in_window = membership[
 ].copy()
 
 # clip each membersip window to the sample period
-in_window['universe_start'] = in_window['mbrstartdt'].clip(lower=SAMPLE_START)
-in_window['universe_end'] = in_window['mbrenddt_filled'].clip(upper=SAMPLE_END)
+in_window['universe_start'] = in_window['mbrstartdt'].clip(lower=SAMPLE_START)  # type: ignore[call-overload]
+in_window['universe_end'] = in_window['mbrenddt_filled'].clip(upper=SAMPLE_END)  # type: ignore[call-overload]
 
 print(f"Membership rows overlapping {SAMPLE_START.date()} - {SAMPLE_END.date()}: "
       f"{len(in_window)}")
