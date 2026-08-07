@@ -65,3 +65,8 @@ aapl_covid = prices[
 print("AAPL 21-day rolling volatility, Feb-Apr 2020 (spot check)")
 print(aapl_covid[['dlycaldt', 'dlyret', 'volatility_21d']].to_string(index=False))
 print()
+
+# save
+output = prices[['permno', 'gvkey', 'dlycaldt', 'dlyret', 'dlyprc', 'volatility_21d']]
+output.to_parquet('data/target_variable_sp500_2005_2024.parquet', index=False)
+print(f"Saved {len(output)} rows to data/target_variable_sp500_2005_2024.parquet")
