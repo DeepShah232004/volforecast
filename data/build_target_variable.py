@@ -67,6 +67,6 @@ print(aapl_covid[['dlycaldt', 'dlyret', 'volatility_21d']].to_string(index=False
 print()
 
 # save
-output = prices[['permno', 'gvkey', 'dlycaldt', 'dlyret', 'dlyprc', 'volatility_21d']]
+output = prices[['permno', 'gvkey', 'dlycaldt', 'dlyret', 'dlyprc', 'in_sp500_membership', 'volatility_21d']]
 output.to_parquet('data/target_variable_sp500_2005_2024.parquet', index=False)
 print(f"Saved {len(output)} rows to data/target_variable_sp500_2005_2024.parquet")

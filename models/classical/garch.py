@@ -60,7 +60,7 @@ def fit_garch_params(return_pct):
     alpha = fit_result.params.get('alpha[1]')
     beta = fit_result.params.get('beta[1]')
 
-    if omega is None or alpha is None or beta is None or (alpha + beta) >= 0.995:
+    if omega is None or alpha is None or beta is None or (alpha + beta) >= 1:
         return None
 
     return omega, alpha, beta
@@ -103,8 +103,15 @@ def fit_and_forecast_garch_expanding(group):
             year_params[y] = None
             fit_log.append((y, 'fit_failed_or_degenerate'))
         else:
-            year_params[y] = params
-            fit_log.append((y, 'ok'))
+            omega, alpha, beta = params
+            long_run_var = omega / (1 - alpha - beta)
+            sample_var = np.var(train_returns)
+            if sample_var <= 0 or not (0.05 <= long_run_var / sample_var <= 20):
+                year_params[y] = None
+                fit_log.append((y, 'implausible_unconditional_variance'))
+            else:
+                year_params[y] = params
+                fit_log.append((y, 'ok'))
 
     # Recurse sigma^2 continuously through the company's full history,
     # switching to each year's freshly-estimated params at year
@@ -158,13 +165,8 @@ def fit_and_forecast_garch_expanding(group):
             geo_sum = (1-ratio ** FORECAST_HORIZON) / (1-ratio)
 
         avg_var_pct = long_run_var + (one_step_forward[i] - long_run_var) * geo_sum / FORECAST_HORIZON
-        avg_var_pct = max(avg_var_pct, 1e-8)
+        avg_var_pct = max(avg_var_pct, 1e-12)
         forecast_vol = np.sqrt(avg_var_pct) / 100
-
-        MIN_PLAUSIBLE_VOL = 0.001
-
-        if forecast_vol > 1.0 or forecast_vol < MIN_PLAUSIBLE_VOL:
-            continue
 
         group.loc[i, 'forecast_garch'] = forecast_vol
 
@@ -197,7 +199,7 @@ print(f"Rows with a valid GARCH forecast: {n_valid_forecast} out of {len(data)}"
 print()
 
 # split into train / test
-test = data[data['dlycaldt'] >= TEST_START]
+test = data[(data['dlycaldt'] >= TEST_START) & (data['in_sp500_membership'])]
 
 print(f"Test: {len(test)} rows ({test['dlycaldt'].min().date()} to "
       f"{test['dlycaldt'].max().date()})")

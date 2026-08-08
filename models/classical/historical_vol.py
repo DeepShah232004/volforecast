@@ -45,7 +45,7 @@ print()
 
 # split into train/test by date
 train = data[data['dlycaldt'] < TEST_START]
-test = data[data['dlycaldt'] >= TEST_START]
+test = data[(data['dlycaldt'] >= TEST_START) & (data['in_sp500_membership'])]
 
 print(f"Train: {len(train)} rows ({train['dlycaldt'].min().date()} to "
       f"{train['dlycaldt'].max().date()})")

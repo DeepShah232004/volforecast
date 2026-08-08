@@ -65,6 +65,8 @@ missing_ret = prices['dlyret'].isna().sum()
 print(f"Rows with null dlyret: {missing_ret} out of {len(prices)}")
 print()
 
+
+
 # clip each company's rows to its actual membership window
 prices_with_window = prices.merge(
     universe[['permno', 'universe_start', 'universe_end']],
@@ -72,14 +74,18 @@ prices_with_window = prices.merge(
     how='left'
 )
 
-in_window = prices_with_window[
+prices_with_window['in_sp500_membership'] = (
     (prices_with_window['dlycaldt'] >= prices_with_window['universe_start']) &
     (prices_with_window['dlycaldt'] <= prices_with_window['universe_end'])
-].copy()
+)
 
-print(f"Rows after clipping to each company's membership window: "
-      f"{len(in_window)} (dropped {len(prices) - len(in_window)})")
+n_in_membership = prices_with_window['in_sp500_membership'].sum()
+print(f"Rows within actual S&P 500 membership: {n_in_membership} out of "
+      f"{len(prices_with_window)}")
+print("(All rows are kept -- the flag marks membership for evaluation)")
 print()
+
+in_window = prices_with_window
 
 # tag with date-correct gvkey
 final = attach_gvkey(in_window, links, permno_col='permno', date_col='dlycaldt')
@@ -98,5 +104,6 @@ print(aapl_check[['permno', 'gvkey', 'dlycaldt', 'dlyret', 'dlyprc']])
 print()
 
 # save
+final = final[['permno', 'gvkey', 'dlycaldt', 'dlyret', 'dlyprc', 'in_sp500_membership']]
 final.to_parquet('data/crsp_daily_prices_sp500_2005_2024.parquet', index=False)
 print(f"Saved {len(final)} rows to data/crsp_daily_prices_sp500_2005_2024.parquet")
