@@ -1,8 +1,7 @@
 """
-pull daily total returns and prices from CRSP's Stock Daily Security Data table for
-our locked S&P 500 universe (2005-2024), clip each company's data to the exact window
-it was actually a member, and tag each row with the date-correct GVKEY via the
-attach_gvkey function.
+Pull daily total returns and prices from CRSP's Stock Daily Security Data table for
+our locked S&P 500 universe (2005-2024), tag each row with point-in-time index
+membership, and attach the date-correct GVKEY.
 """
 
 import sys
@@ -11,6 +10,7 @@ import pandas as pd
 
 sys.path.append('data')
 from build_links import attach_gvkey
+from membership import attach_membership_flag
 
 SAMPLE_START = pd.Timestamp('2005-01-01')
 SAMPLE_END = pd.Timestamp('2024-12-31')
@@ -65,24 +65,17 @@ missing_ret = prices['dlyret'].isna().sum()
 print(f"Rows with null dlyret: {missing_ret} out of {len(prices)}")
 print()
 
-
-
-# clip each company's rows to its actual membership window
-prices_with_window = prices.merge(
-    universe[['permno', 'universe_start', 'universe_end']],
-    on='permno',
-    how='left'
-)
-
-prices_with_window['in_sp500_membership'] = (
-    (prices_with_window['dlycaldt'] >= prices_with_window['universe_start']) &
-    (prices_with_window['dlycaldt'] <= prices_with_window['universe_end'])
-)
+# Tag each price row against all of its company's membership spells. This
+# preserves pre-membership return history for model estimation while keeping
+# exactly one row per (PERMNO, date), including for companies that leave and
+# later re-enter the index.
+prices_with_window = attach_membership_flag(prices, universe)
 
 n_in_membership = prices_with_window['in_sp500_membership'].sum()
 print(f"Rows within actual S&P 500 membership: {n_in_membership} out of "
       f"{len(prices_with_window)}")
 print("(All rows are kept -- the flag marks membership for evaluation)")
+print("Confirmed: membership tagging preserved one row per (PERMNO, date).")
 print()
 
 in_window = prices_with_window

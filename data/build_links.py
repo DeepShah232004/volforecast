@@ -5,36 +5,6 @@ build a PERMNO <-> GVKEY link table (via WRDS's CRSP/Compustat Merged linking ta
 import wrds
 import pandas as pd
 
-db = wrds.Connection(wrds_username='deepshah')
-
-# get PERMNOs for test tickers from CRSP
-test_tickers = ['AAPL', 'MSFT', 'JPM', 'XOM', 'JNJ']
-
-stocknames_query = """
-    select permno, ticker, comnam, namedt, nameenddt
-    from crsp.stocknames
-    where ticker in ({})
-""".format(", ".join(f"'{t}'" for t in test_tickers))
-
-stocknames = db.raw_sql(stocknames_query, date_cols=['namedt', 'nameenddt'])
-
-print(stocknames)
-print()
-
-# pull the CCM linking table, filtered to good-quality links
-link_query = """
-    select gvkey, lpermno as permno, linkdt, linkenddt, linktype, linkprim
-    from crsp_a_ccm.ccmxpf_linktable
-    where linktype in ('LC', 'LU')
-        and linkprim in ('P', 'C')
-"""
-
-links = db.raw_sql(link_query, date_cols=['linkdt', 'linkenddt'])
-print(links.head())
-print()
-
-db.close()
-
 def attach_gvkey(df, link_table, permno_col='permno', date_col='date'):
     """
     Given a dataframe with a permno column and a date column, return the same dataframe
@@ -81,10 +51,36 @@ def attach_gvkey(df, link_table, permno_col='permno', date_col='date'):
     return result[keep_cols].reset_index(drop=True)
 
 
+def main():
+    """Pull the link table and run the original date-correctness diagnostics."""
+    db = wrds.Connection(wrds_username='deepshah')
 
-if __name__ == '__main__':
+    # get PERMNOs for test tickers from CRSP
+    test_tickers = ['AAPL', 'MSFT', 'JPM', 'XOM', 'JNJ']
+    stocknames_query = """
+        select permno, ticker, comnam, namedt, nameenddt
+        from crsp.stocknames
+        where ticker in ({})
+    """.format(", ".join(f"'{t}'" for t in test_tickers))
+    stocknames = db.raw_sql(stocknames_query, date_cols=['namedt', 'nameenddt'])
+
+    print(stocknames)
+    print()
+
+    # pull the CCM linking table, filtered to good-quality links
+    link_query = """
+        select gvkey, lpermno as permno, linkdt, linkenddt, linktype, linkprim
+        from crsp_a_ccm.ccmxpf_linktable
+        where linktype in ('LC', 'LU')
+            and linkprim in ('P', 'C')
+    """
+    links = db.raw_sql(link_query, date_cols=['linkdt', 'linkenddt'])
+    print(links.head())
+    print()
+
+    db.close()
+
     test_permnos = stocknames['permno'].unique().tolist()
-
     test_dates_multi = pd.DataFrame([
         {'permno': p, 'date': d}
         for p in test_permnos
@@ -93,3 +89,7 @@ if __name__ == '__main__':
 
     result = attach_gvkey(test_dates_multi, links)
     print(result.sort_values(['permno', 'date']))
+
+
+if __name__ == '__main__':
+    main()
