@@ -31,6 +31,7 @@ from arch import arch_model
 
 sys.path.append('evaluation')
 from metrics import evaluate_all
+from garch_core import compute_garch_path_and_forecasts
 
 warnings.filterwarnings('ignore')
 
@@ -113,62 +114,16 @@ def fit_and_forecast_garch_expanding(group):
                 year_params[y] = params
                 fit_log.append((y, 'ok'))
 
-    # Recurse sigma^2 continuously through the company's full history,
-    # switching to each year's freshly-estimated params at year
-    # boundaries. 
-    n = len(group)
-    sigma2 = np.full(n, np.nan)
-    active_params = None
-    first_valid_idx = None
-
-    for i in range (n):
-        y = years[i]
-        if year_params.get(y) is not None:
-            active_params = year_params[y]
-            if first_valid_idx is None:
-                first_valid_idx = i
-
-        if active_params is None:
-            continue
-
-        omega, alpha, beta = active_params
-        long_run_var = omega / (1-alpha-beta)
-
-        if i == first_valid_idx:
-            sigma2[i] = long_run_var # initialize at unconditional variance
-        else:
-            prev_ret = returns_pct[i-1]
-            prev_sigma2 = sigma2[i-1]
-            if np.isnan(prev_ret) or np.isnan(prev_sigma2):
-                sigma2[i] = long_run_var
-            else:
-                sigma2[i] = omega + alpha * prev_ret ** 2 + beta * prev_sigma2
-
-    # Compute the averaged forward 21-day forecast at each row, using
-    # that row's ACTIVE parameters (i.e. the expanding-window fit valid
-    # as of that point in time).
-    one_step_forward = np.roll(sigma2, -1)
-    one_step_forward[-1] = np.nan
-
-    for i in range (n):
-        y = years[i]
-        params = year_params.get(y)
-        if params is None or np.isnan(one_step_forward[i]):
-            continue
-        omega, alpha, beta = params
-        long_run_var = omega / (1-alpha-beta)
-        ratio = alpha + beta
-
-        if abs(ratio - 1) < 1e-8:
-            geo_sum = FORECAST_HORIZON
-        else:
-            geo_sum = (1-ratio ** FORECAST_HORIZON) / (1-ratio)
-
-        avg_var_pct = long_run_var + (one_step_forward[i] - long_run_var) * geo_sum / FORECAST_HORIZON
-        avg_var_pct = max(avg_var_pct, 1e-12)
-        forecast_vol = np.sqrt(avg_var_pct) / 100
-
-        group.loc[i, 'forecast_garch'] = forecast_vol
+    # Recurse sigma^2 continuously while ensuring that every forecast uses
+    # the parameter set available at its own origin date. In particular, a
+    # December origin cannot use parameters that only become active in January.
+    _, forecast_garch = compute_garch_path_and_forecasts(
+        returns_pct=returns_pct,
+        years=years,
+        year_params=year_params,
+        forecast_horizon=FORECAST_HORIZON,
+    )
+    group['forecast_garch'] = forecast_garch
 
     return group, fit_log
 

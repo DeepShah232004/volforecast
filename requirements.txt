@@ -1,4 +1,5 @@
 asttokens==3.0.2
+arch==8.0.0
 decorator==5.3.1
 executing==2.2.1
 ipython==9.8.0
