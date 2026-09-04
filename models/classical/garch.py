@@ -50,7 +50,12 @@ data['year'] = data['dlycaldt'].dt.year
 
 def fit_garch_params(return_pct):
     """Fit GARCH(1,1) on a percent-scaled return series. Returns
-    (omega, alpha, beta) or None if fitting failed / degenerate."""
+    (omega, alpha, beta, next_variance) or None if fitting failed / degenerate.
+
+    next_variance is the fit's one-step conditional variance after the final
+    training return. It initializes the newly refitted calendar year without
+    borrowing the previous parameter regime's filtered variance state.
+    """
     try:
         model = arch_model(return_pct, vol='GARCH', p=1, q=1, mean='Zero', dist='normal')
         fit_result = model.fit(disp='off', show_warning=False)
@@ -61,10 +66,24 @@ def fit_garch_params(return_pct):
     alpha = fit_result.params.get('alpha[1]')
     beta = fit_result.params.get('beta[1]')
 
-    if omega is None or alpha is None or beta is None or (alpha + beta) >= 1:
+    if (
+        omega is None
+        or alpha is None
+        or beta is None
+        or omega <= 0
+        or alpha < 0
+        or beta < 0
+        or (alpha + beta) >= 1
+    ):
         return None
 
-    return omega, alpha, beta
+    next_variance = float(
+        fit_result.forecast(horizon=1, reindex=False).variance.iloc[-1, 0]
+    )
+    if not np.isfinite(next_variance) or next_variance <= 0:
+        return None
+
+    return omega, alpha, beta, next_variance
 
 def fit_and_forecast_garch_expanding(group):
     """
@@ -82,7 +101,7 @@ def fit_and_forecast_garch_expanding(group):
     # Determine, for each calendar year present, whether enough expanding
     # history exists by the START of that year to attempt a fit, and if
     # so, fit params using all data strictly before that year.
-    year_params = {} # year -> (omega, alpha, beta) or None
+    year_params = {} # year -> (omega, alpha, beta, initial variance) or None
     fit_log = [] # (year, status) pairs, for reporting
 
     for y in sorted(set(years)):
@@ -104,7 +123,7 @@ def fit_and_forecast_garch_expanding(group):
             year_params[y] = None
             fit_log.append((y, 'fit_failed_or_degenerate'))
         else:
-            omega, alpha, beta = params
+            omega, alpha, beta, _ = params
             long_run_var = omega / (1 - alpha - beta)
             sample_var = np.var(train_returns)
             if sample_var <= 0 or not (0.05 <= long_run_var / sample_var <= 20):

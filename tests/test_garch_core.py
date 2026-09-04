@@ -12,12 +12,12 @@ from garch_core import compute_garch_path_and_forecasts
 
 
 class GarchBoundaryTests(unittest.TestCase):
-    def test_december_forecast_uses_december_parameters(self):
+    def test_boundary_uses_origin_parameters_and_new_fit_state(self):
         returns_pct = np.array([1.0, 2.0, 3.0])
         years = np.array([2020, 2020, 2021])
         year_params = {
-            2020: (1.0, 0.1, 0.8),
-            2021: (4.0, 0.2, 0.5),
+            2020: (1.0, 0.1, 0.8, 10.0),
+            2021: (4.0, 0.2, 0.5, 7.0),
         }
 
         sigma2, forecasts = compute_garch_path_and_forecasts(
@@ -34,21 +34,20 @@ class GarchBoundaryTests(unittest.TestCase):
             (december_one_step + december_two_step) / 2
         ) / 100
 
-        january_sigma2 = 4.0 + 0.2 * 2.0**2 + 0.5 * december_sigma2
-
         self.assertAlmostEqual(sigma2[1], december_sigma2)
-        self.assertAlmostEqual(sigma2[2], january_sigma2)
+        self.assertAlmostEqual(sigma2[2], 7.0)
         self.assertAlmostEqual(forecasts[1], expected_december_forecast)
 
-        # This is the contaminated one-step value used by the previous
-        # np.roll implementation. It must not determine December's forecast.
-        self.assertNotAlmostEqual(december_one_step, january_sigma2)
+        # The previous implementation initialized January by combining the new
+        # parameters with December's old-regime filtered state.
+        inherited_january_state = 4.0 + 0.2 * 2.0**2 + 0.5 * december_sigma2
+        self.assertNotAlmostEqual(sigma2[2], inherited_january_state)
 
     def test_last_observation_can_produce_a_forecast(self):
         _, forecasts = compute_garch_path_and_forecasts(
             returns_pct=np.array([1.0, 2.0]),
             years=np.array([2020, 2020]),
-            year_params={2020: (1.0, 0.1, 0.8)},
+            year_params={2020: (1.0, 0.1, 0.8, 10.0)},
             forecast_horizon=21,
         )
 

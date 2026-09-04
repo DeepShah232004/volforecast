@@ -5,22 +5,22 @@ from collections.abc import Mapping
 import numpy as np
 
 
-GarchParams = tuple[float, float, float]
+GarchYearFit = tuple[float, float, float, float]
 
 
 def compute_garch_path_and_forecasts(
     returns_pct: np.ndarray,
     years: np.ndarray,
-    year_params: Mapping[int, GarchParams | None],
+    year_params: Mapping[int, GarchYearFit | None],
     forecast_horizon: int,
 ) -> tuple[np.ndarray, np.ndarray]:
     """Filter conditional variance and forecast using origin-date parameters.
 
-    ``year_params[y]`` must contain the parameters estimated using information
-    available before year ``y``. At each forecast origin, both the one-step
-    variance and all subsequent horizon steps use that origin year's parameter
-    set. This is important at calendar boundaries: a December forecast must not
-    borrow the refitted parameters that first become active in January.
+    ``year_params[y]`` contains omega, alpha, beta, and the one-step variance
+    for the first observation of year ``y``, all estimated using information
+    available before that year. At each forecast origin, the filtered state and
+    all horizon steps use that origin year's fit. This prevents both variance-
+    state inheritance and parameter mixing at calendar boundaries.
 
     Returns are expressed in percent units. Returned forecasts are average
     daily volatility in decimal-return units, matching the study target.
@@ -43,14 +43,19 @@ def compute_garch_path_and_forecasts(
         if params is None:
             continue
 
-        omega, alpha, beta = params
+        omega, alpha, beta, initial_variance = params
         persistence = alpha + beta
         if omega <= 0 or alpha < 0 or beta < 0 or persistence >= 1:
             raise ValueError(f"Invalid stationary GARCH parameters for year {year}.")
+        if not np.isfinite(initial_variance) or initial_variance <= 0:
+            raise ValueError(f"Invalid initial GARCH variance for year {year}.")
 
         long_run_var = omega / (1 - persistence)
 
-        if i == 0 or np.isnan(returns_pct[i - 1]) or np.isnan(sigma2[i - 1]):
+        year_changed = i == 0 or int(years[i - 1]) != int(year)
+        if year_changed:
+            sigma2[i] = initial_variance
+        elif np.isnan(returns_pct[i - 1]) or np.isnan(sigma2[i - 1]):
             sigma2[i] = long_run_var
         else:
             sigma2[i] = (
