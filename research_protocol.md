@@ -2,7 +2,7 @@
 
 ## When Does Machine Learning Improve Equity-Volatility Forecasts?
 
-**Status:** Version 1.4, locked for ML training on 2026-09-05.
+**Status:** Version 1.4; ML specifications selected and frozen on 2026-09-05.
 
 This document consolidates the original design and the amendments made while
 building the data and classical baselines. The three hypotheses remain
@@ -251,8 +251,20 @@ rows, and 1,234,643 test rows. Intersecting the test rows with valid forecasts
 from all three classical models leaves 1,206,821 final-comparison rows across
 682 PERMNOs.
 
-Next: train and select RF/XGBoost using only training/validation data, refit the
-selected specifications through 2014, freeze test predictions, and then
+All 12 Random Forest and eight XGBoost candidates have been evaluated on the
+locked validation sample. The QLIKE-selected specifications are now frozen:
+
+| Model | Selected specification | Validation RMSE | Validation MAE | Validation QLIKE |
+|---|---|---:|---:|---:|
+| Random Forest | 400 trees; depth 8; min leaf 20; max features sqrt | 0.005315932 | 0.003426376 | **0.272853127** |
+| XGBoost | learning rate 0.03; depth 6; min child weight 20; 205 rounds | 0.005325615 | 0.003404988 | **0.283479163** |
+
+Random Forest's validation QLIKE is 3.748% lower than XGBoost's. This is a
+model-selection result only, not evidence for H1 or H2. Test-period losses and
+conditional hypothesis results remain unopened.
+
+Next: refit both selected specifications on the combined pre-2015 sample,
+freeze test predictions, build the all-model comparison panel, and then
 evaluate H1-H3.
 
 ## 11. Amendment log
