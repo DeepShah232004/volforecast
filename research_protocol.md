@@ -2,7 +2,7 @@
 
 ## When Does Machine Learning Improve Equity-Volatility Forecasts?
 
-**Status:** Version 1.5; confirmatory evaluation completed on 2026-09-05.
+**Status:** Version 1.6; confirmatory evaluation completed on 2026-09-05.
 
 This document consolidates the original design and the amendments made while
 building the data and classical baselines. The three hypotheses remain
@@ -242,6 +242,15 @@ sample stratified by calendar year and VIX regime, seed 42. Report global SHAP
 importance and stability between 2015-2019 and 2020-2024. Interpret correlated
 volatility features as groups; do not claim causal effects.
 
+The SHAP population is the final five-model common comparison sample. Sampling
+is proportional within year-by-regime strata, without replacement, with at
+least one row from each populated stratum. Exact TreeSHAP values explain the
+models' log-volatility outputs. Primary interpretation groups the nine
+trailing-volatility measures, three compounded-return measures, VIX level, and
+three VIX changes; individual feature rankings are secondary. Stability is
+reported using rank correlation and top-feature overlap across the two locked
+subperiods.
+
 ## 10. Current checkpoint
 
 Phase 2 is complete. The common 2015-2024 classical sample has 1,207,514 rows,
@@ -336,6 +345,7 @@ are permitted in response to these test results.
 | 1.3 | Fixed repeat-membership row expansion; made GARCH origin parameters and annual state initialization internally consistent; locked training-only VIX tertiles, event boundaries, ML features, splits, and inference. |
 | 1.4 | Fixed the ML execution rule: log-RMSE early stopping, QLIKE hyperparameter selection, deterministic tie-breaking, and a pre-2015 final refit that re-admits eligible train-boundary rows. |
 | 1.5 | Locked full-calendar non-circular date-block resampling, pooled-metric intervals, date-equal H1-H2 loss differences, and within-date H3 event differences before test evaluation. |
+| 1.6 | Before computing SHAP values, fixed the exact common-sample population, proportional year-by-regime allocation, log-output TreeSHAP scale, feature groups, and subperiod stability summaries. |
 
 ## 12. Success criteria and limitations
 
