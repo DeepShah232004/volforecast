@@ -356,9 +356,11 @@ XGBoost assigns a larger share than Random Forest to return-path and VIX-change
 information. This offers a plausible, but not separately tested, explanation
 for why the ML models did not dominate GARCH under the primary QLIKE loss.
 
-Next: produce publication-quality tables and figures from the locked evaluation
-and SHAP artifacts, then draft the research report. No model, feature, sample,
-or decision-rule changes are permitted in response to these results.
+The reproducible reporting layer now generates eight paper-ready tables and
+five figures, in both PNG and vector PDF formats, directly from the locked
+evaluation and SHAP artifacts. Next: draft the research report and complete
+repository documentation. No model, feature, sample, or decision-rule changes
+are permitted in response to these results.
 
 ## 11. Amendment log
 
