@@ -2,7 +2,7 @@
 
 ## When Does Machine Learning Improve Equity-Volatility Forecasts?
 
-**Status:** Version 1.6; confirmatory evaluation completed on 2026-09-05.
+**Status:** Version 1.6; confirmatory evaluation and SHAP analysis completed on 2026-09-05.
 
 This document consolidates the original design and the amendments made while
 building the data and classical baselines. The three hypotheses remain
@@ -330,10 +330,35 @@ composition of observations differs across groups; this does not change the
 locked within-date result, but it is a limitation that must be reported
 alongside it.
 
-Next: perform SHAP analysis on the frozen ML models, produce
-publication-quality tables and figures from the locked result artifact, and
-draft the research report. No model, feature, sample, or decision-rule changes
-are permitted in response to these test results.
+The locked SHAP analysis used 10,000 common-sample test rows across 665
+securities. Its sample-key SHA-256 is
+`5938bd766426e8b42b10b1f54a06bcb669f07e21032480a6054d035c62a6f185`.
+Grouped mean absolute SHAP shares were:
+
+| Model | Trailing volatility | Compounded returns | VIX changes | VIX level |
+|---|---:|---:|---:|---:|
+| Random Forest | **83.27%** | 7.04% | 6.98% | 2.72% |
+| XGBoost | **74.31%** | 10.11% | 11.67% | 3.91% |
+
+For both models, 63-day and 21-day mean absolute return were the two most
+important individual features. The top feature accounted for 26.30% of Random
+Forest importance and 38.81% of XGBoost importance. Feature rankings were
+stable between 2015-2019 and 2020-2024: Spearman rank correlations were 0.965
+for Random Forest and 0.968 for XGBoost, and each model retained the same five
+features in its subperiod top five. XGBoost's group ordering was unchanged.
+Random Forest's compounded-return and VIX-change groups exchanged second and
+third place, but their shares were close in both subperiods.
+
+These are descriptive explanations of the frozen models' log-volatility
+outputs, not causal effects. The main interpretation is that both tree models
+draw most of their predictive variation from recent firm-level volatility;
+XGBoost assigns a larger share than Random Forest to return-path and VIX-change
+information. This offers a plausible, but not separately tested, explanation
+for why the ML models did not dominate GARCH under the primary QLIKE loss.
+
+Next: produce publication-quality tables and figures from the locked evaluation
+and SHAP artifacts, then draft the research report. No model, feature, sample,
+or decision-rule changes are permitted in response to these results.
 
 ## 11. Amendment log
 

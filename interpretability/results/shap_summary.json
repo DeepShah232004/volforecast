@@ -1,0 +1,1325 @@
+{
+  "created_utc": "2026-09-05T12:37:55.119750+00:00",
+  "inputs": {
+    "evaluation_sha256": "49d4ff213ddf871678e378f0c048860edfa528e563ccdc24c310ce02fe179c0d",
+    "matrix_path": "data/ml_feature_matrix_sp500_2005_2024.parquet",
+    "matrix_sha256": "8f0bc25ea84cabb074ab7f2be4168fc47707bbd93a549251d1dacae442f4429f",
+    "panel_path": "data/final_forecast_panel_sp500_2015_2024.parquet",
+    "panel_sha256": "d13bb2f5373c9f65a0364d536e69fb6eb82d7bb8b7716621c27e5342b0fa4e2e",
+    "random_forest_model_path": "models/ml/artifacts/random_forest_final.joblib",
+    "random_forest_model_sha256": "fe4bcc62b299f6ad8707da89e7c6cc83beb59892a3c67aad8a04ae0b921a7cac",
+    "random_forest_selection_sha256": "cde5e916930584b0001e529ebdd0a8c099742ae436a514a33672e32873e2163c",
+    "xgboost_model_path": "models/ml/artifacts/xgboost_final.ubj",
+    "xgboost_model_sha256": "c4303bd1fea9baa1c8a2e948356560722ef55d455d6b263624b6c417fe3f9027",
+    "xgboost_selection_sha256": "783302e7f6664404809066bde96011175e304b9eb0a57bb66ce83a9164793f40"
+  },
+  "method": {
+    "algorithm": "exact TreeSHAP",
+    "feature_groups": {
+      "compounded_returns": [
+        "compounded_return_5d",
+        "compounded_return_21d",
+        "compounded_return_63d"
+      ],
+      "trailing_volatility": [
+        "return_std_5d",
+        "return_std_21d",
+        "return_std_63d",
+        "return_std_126d",
+        "return_std_252d",
+        "mean_abs_return_5d",
+        "mean_abs_return_21d",
+        "mean_abs_return_63d",
+        "ewma_volatility_094"
+      ],
+      "vix_changes": [
+        "vix_log_change_1d",
+        "vix_log_change_5d",
+        "vix_log_change_21d"
+      ],
+      "vix_level": [
+        "vix_close"
+      ]
+    },
+    "group_importance": "sum of member-feature mean absolute SHAP values; mean absolute net grouped contributions are also reported",
+    "interpretation": "descriptive, not causal",
+    "model_output": "log forward 21-trading-day volatility",
+    "sample_design": "proportional year-by-VIX-regime sampling without replacement, with at least one row per populated stratum",
+    "sample_size": 10000,
+    "seed": 42,
+    "stability_periods": [
+      "2015-2019",
+      "2020-2024"
+    ]
+  },
+  "models": {
+    "random_forest": {
+      "max_absolute_additivity_error": 1.7763568394002505e-14,
+      "max_absolute_frozen_forecast_error": 8.326672684688674e-17,
+      "output_scale": "log forward 21-trading-day volatility",
+      "segments": {
+        "2015_2019": {
+          "features": [
+            {
+              "feature": "mean_abs_return_63d",
+              "mean_absolute_shap": 0.10340805836728464,
+              "mean_signed_shap": -0.060716950250869706,
+              "normalized_share": 0.2706178363484035,
+              "rank": 1
+            },
+            {
+              "feature": "mean_abs_return_21d",
+              "mean_absolute_shap": 0.05278022295397126,
+              "mean_signed_shap": -0.036339752235470764,
+              "normalized_share": 0.13812530631857275,
+              "rank": 2
+            },
+            {
+              "feature": "return_std_63d",
+              "mean_absolute_shap": 0.03944010305981439,
+              "mean_signed_shap": -0.012150504970390165,
+              "normalized_share": 0.10321434831989565,
+              "rank": 3
+            },
+            {
+              "feature": "ewma_volatility_094",
+              "mean_absolute_shap": 0.037138746581107024,
+              "mean_signed_shap": -0.015608784112759115,
+              "normalized_share": 0.09719172183635653,
+              "rank": 4
+            },
+            {
+              "feature": "return_std_126d",
+              "mean_absolute_shap": 0.026804092919091287,
+              "mean_signed_shap": -0.004393447940098641,
+              "normalized_share": 0.07014603838012783,
+              "rank": 5
+            },
+            {
+              "feature": "return_std_21d",
+              "mean_absolute_shap": 0.01894296311323665,
+              "mean_signed_shap": -0.008811226630158918,
+              "normalized_share": 0.04957354168206233,
+              "rank": 6
+            },
+            {
+              "feature": "return_std_252d",
+              "mean_absolute_shap": 0.017440790328323026,
+              "mean_signed_shap": -0.004592581955398186,
+              "normalized_share": 0.045642370791773273,
+              "rank": 7
+            },
+            {
+              "feature": "mean_abs_return_5d",
+              "mean_absolute_shap": 0.017436663296143542,
+              "mean_signed_shap": -0.008847310524063342,
+              "normalized_share": 0.04563157039056097,
+              "rank": 8
+            },
+            {
+              "feature": "vix_log_change_21d",
+              "mean_absolute_shap": 0.01438488788556918,
+              "mean_signed_shap": -3.505612134570849e-05,
+              "normalized_share": 0.037645105199448026,
+              "rank": 9
+            },
+            {
+              "feature": "compounded_return_63d",
+              "mean_absolute_shap": 0.013587192813878872,
+              "mean_signed_shap": 0.00026759721523187074,
+              "normalized_share": 0.03555754531509272,
+              "rank": 10
+            },
+            {
+              "feature": "vix_close",
+              "mean_absolute_shap": 0.011941698781900174,
+              "mean_signed_shap": -0.009232018184507354,
+              "normalized_share": 0.031251304179835446,
+              "rank": 11
+            },
+            {
+              "feature": "vix_log_change_5d",
+              "mean_absolute_shap": 0.011145487318674012,
+              "mean_signed_shap": 0.0006247818356547758,
+              "normalized_share": 0.02916762688373191,
+              "rank": 12
+            },
+            {
+              "feature": "return_std_5d",
+              "mean_absolute_shap": 0.00696680913471767,
+              "mean_signed_shap": -0.002746495094084853,
+              "normalized_share": 0.01823206860333099,
+              "rank": 13
+            },
+            {
+              "feature": "compounded_return_5d",
+              "mean_absolute_shap": 0.005291072337891004,
+              "mean_signed_shap": -0.00042465413766044484,
+              "normalized_share": 0.013846682460251584,
+              "rank": 14
+            },
+            {
+              "feature": "compounded_return_21d",
+              "mean_absolute_shap": 0.004992212871066207,
+              "mean_signed_shap": -0.0006592514389622365,
+              "normalized_share": 0.01306457027710715,
+              "rank": 15
+            },
+            {
+              "feature": "vix_log_change_1d",
+              "mean_absolute_shap": 0.0004174120219762928,
+              "mean_signed_shap": 2.8487471879324447e-05,
+              "normalized_share": 0.0010923630134493816,
+              "rank": 16
+            }
+          ],
+          "groups": [
+            {
+              "features": [
+                "return_std_5d",
+                "return_std_21d",
+                "return_std_63d",
+                "return_std_126d",
+                "return_std_252d",
+                "mean_abs_return_5d",
+                "mean_abs_return_21d",
+                "mean_abs_return_63d",
+                "ewma_volatility_094"
+              ],
+              "group": "trailing_volatility",
+              "mean_absolute_net_contribution": 0.2752210820444839,
+              "mean_absolute_shap": 0.32035844975368966,
+              "normalized_share": 0.8383748026710839,
+              "rank": 1
+            },
+            {
+              "features": [
+                "vix_log_change_1d",
+                "vix_log_change_5d",
+                "vix_log_change_21d"
+              ],
+              "group": "vix_changes",
+              "mean_absolute_net_contribution": 0.022479942551798117,
+              "mean_absolute_shap": 0.02594778722621948,
+              "normalized_share": 0.06790509509662927,
+              "rank": 2
+            },
+            {
+              "features": [
+                "compounded_return_5d",
+                "compounded_return_21d",
+                "compounded_return_63d"
+              ],
+              "group": "compounded_returns",
+              "mean_absolute_net_contribution": 0.019053517888786863,
+              "mean_absolute_shap": 0.023870478022836084,
+              "normalized_share": 0.062468798052451424,
+              "rank": 3
+            },
+            {
+              "features": [
+                "vix_close"
+              ],
+              "group": "vix_level",
+              "mean_absolute_net_contribution": 0.01194169878190017,
+              "mean_absolute_shap": 0.01194169878190017,
+              "normalized_share": 0.031251304179835425,
+              "rank": 4
+            }
+          ],
+          "rows": 5012
+        },
+        "2020_2024": {
+          "features": [
+            {
+              "feature": "mean_abs_return_63d",
+              "mean_absolute_shap": 0.0994574380132124,
+              "mean_signed_shap": 0.012711510874790223,
+              "normalized_share": 0.2554126749242861,
+              "rank": 1
+            },
+            {
+              "feature": "mean_abs_return_21d",
+              "mean_absolute_shap": 0.053675692563326764,
+              "mean_signed_shap": -0.004672964802966499,
+              "normalized_share": 0.1378424026385203,
+              "rank": 2
+            },
+            {
+              "feature": "ewma_volatility_094",
+              "mean_absolute_shap": 0.04255800194698007,
+              "mean_signed_shap": 0.010896256575404658,
+              "normalized_share": 0.10929150532981909,
+              "rank": 3
+            },
+            {
+              "feature": "return_std_63d",
+              "mean_absolute_shap": 0.041230149387089195,
+              "mean_signed_shap": 0.014470365679264963,
+              "normalized_share": 0.1058815001959473,
+              "rank": 4
+            },
+            {
+              "feature": "return_std_126d",
+              "mean_absolute_shap": 0.02613614739868525,
+              "mean_signed_shap": 0.013773472479883059,
+              "normalized_share": 0.06711919643885071,
+              "rank": 5
+            },
+            {
+              "feature": "return_std_21d",
+              "mean_absolute_shap": 0.019295727028584612,
+              "mean_signed_shap": 0.0033929784106504607,
+              "normalized_share": 0.04955258604514761,
+              "rank": 6
+            },
+            {
+              "feature": "mean_abs_return_5d",
+              "mean_absolute_shap": 0.01784226647391987,
+              "mean_signed_shap": -0.00023656098826576314,
+              "normalized_share": 0.04582001203580562,
+              "rank": 7
+            },
+            {
+              "feature": "compounded_return_63d",
+              "mean_absolute_shap": 0.01717479216062606,
+              "mean_signed_shap": 0.0010639617627244242,
+              "normalized_share": 0.04410589790611152,
+              "rank": 8
+            },
+            {
+              "feature": "vix_log_change_21d",
+              "mean_absolute_shap": 0.016482944230964244,
+              "mean_signed_shap": 0.0003954556296525248,
+              "normalized_share": 0.042329190865535236,
+              "rank": 9
+            },
+            {
+              "feature": "return_std_252d",
+              "mean_absolute_shap": 0.015242931918483566,
+              "mean_signed_shap": 0.008597471579615197,
+              "normalized_share": 0.039144764763309824,
+              "rank": 10
+            },
+            {
+              "feature": "vix_log_change_5d",
+              "mean_absolute_shap": 0.0109954001469345,
+              "mean_signed_shap": 4.5373488151112564e-05,
+              "normalized_share": 0.028236848037633468,
+              "rank": 11
+            },
+            {
+              "feature": "vix_close",
+              "mean_absolute_shap": 0.008997733304446807,
+              "mean_signed_shap": -0.0003713511670534219,
+              "normalized_share": 0.0231067195923426,
+              "rank": 12
+            },
+            {
+              "feature": "compounded_return_21d",
+              "mean_absolute_shap": 0.00716600161468361,
+              "mean_signed_shap": -0.00044096381381117714,
+              "normalized_share": 0.0184027225864691,
+              "rank": 13
+            },
+            {
+              "feature": "return_std_5d",
+              "mean_absolute_shap": 0.006598381190774536,
+              "mean_signed_shap": 0.00045526835248986324,
+              "normalized_share": 0.016945039242634984,
+              "rank": 14
+            },
+            {
+              "feature": "compounded_return_5d",
+              "mean_absolute_shap": 0.0061216702427280825,
+              "mean_signed_shap": 0.00030428069619848193,
+              "normalized_share": 0.015720816893472295,
+              "rank": 15
+            },
+            {
+              "feature": "vix_log_change_1d",
+              "mean_absolute_shap": 0.0004237138056512565,
+              "mean_signed_shap": 5.791100817746276e-06,
+              "normalized_share": 0.001088122504114371,
+              "rank": 16
+            }
+          ],
+          "groups": [
+            {
+              "features": [
+                "return_std_5d",
+                "return_std_21d",
+                "return_std_63d",
+                "return_std_126d",
+                "return_std_252d",
+                "mean_abs_return_5d",
+                "mean_abs_return_21d",
+                "mean_abs_return_63d",
+                "ewma_volatility_094"
+              ],
+              "group": "trailing_volatility",
+              "mean_absolute_net_contribution": 0.26904674706590626,
+              "mean_absolute_shap": 0.3220367359210557,
+              "normalized_share": 0.8270096816143213,
+              "rank": 1
+            },
+            {
+              "features": [
+                "compounded_return_5d",
+                "compounded_return_21d",
+                "compounded_return_63d"
+              ],
+              "group": "compounded_returns",
+              "mean_absolute_net_contribution": 0.023570344894737843,
+              "mean_absolute_shap": 0.030462464018037743,
+              "normalized_share": 0.07822943738605301,
+              "rank": 2
+            },
+            {
+              "features": [
+                "vix_log_change_1d",
+                "vix_log_change_5d",
+                "vix_log_change_21d"
+              ],
+              "group": "vix_changes",
+              "mean_absolute_net_contribution": 0.023868425573928924,
+              "mean_absolute_shap": 0.027902058183549957,
+              "normalized_share": 0.07165416140728308,
+              "rank": 3
+            },
+            {
+              "features": [
+                "vix_close"
+              ],
+              "group": "vix_level",
+              "mean_absolute_net_contribution": 0.008997733304446792,
+              "mean_absolute_shap": 0.008997733304446792,
+              "normalized_share": 0.023106719592342596,
+              "rank": 4
+            }
+          ],
+          "rows": 4988
+        },
+        "overall": {
+          "features": [
+            {
+              "feature": "mean_abs_return_63d",
+              "mean_absolute_shap": 0.1014374889346731,
+              "mean_signed_shap": -0.024090833841390574,
+              "normalized_share": 0.2629617573514717,
+              "rank": 1
+            },
+            {
+              "feature": "mean_abs_return_21d",
+              "mean_absolute_shap": 0.05322688319511791,
+              "mean_signed_shap": -0.020544358664137674,
+              "normalized_share": 0.13798285910196098,
+              "rank": 2
+            },
+            {
+              "feature": "return_std_63d",
+              "mean_absolute_shap": 0.04033297816785913,
+              "mean_signed_shap": 0.0011279853096578096,
+              "normalized_share": 0.10455730844312583,
+              "rank": 3
+            },
+            {
+              "feature": "ewma_volatility_094",
+              "mean_absolute_shap": 0.03984187115760454,
+              "mean_signed_shap": -0.002388069817503023,
+              "normalized_share": 0.10328418581538272,
+              "rank": 4
+            },
+            {
+              "feature": "return_std_126d",
+              "mean_absolute_shap": 0.026470921693512922,
+              "mean_signed_shap": 0.004668211965388224,
+              "normalized_share": 0.06862196768023521,
+              "rank": 5
+            },
+            {
+              "feature": "return_std_21d",
+              "mean_absolute_shap": 0.019118921754212096,
+              "mean_signed_shap": -0.0027237691558032406,
+              "normalized_share": 0.04956299013267858,
+              "rank": 6
+            },
+            {
+              "feature": "mean_abs_return_5d",
+              "mean_absolute_shap": 0.017638978161218306,
+              "mean_signed_shap": -0.00455226865560752,
+              "normalized_share": 0.045726454231781746,
+              "rank": 7
+            },
+            {
+              "feature": "return_std_252d",
+              "mean_absolute_shap": 0.01634449855349508,
+              "mean_signed_shap": 0.0019866167478664897,
+              "normalized_share": 0.042370706410364715,
+              "rank": 8
+            },
+            {
+              "feature": "vix_log_change_21d",
+              "mean_absolute_shap": 0.015431398390652246,
+              "mean_signed_shap": 0.00017968314005221048,
+              "normalized_share": 0.0400036286565601,
+              "rank": 9
+            },
+            {
+              "feature": "compounded_return_63d",
+              "mean_absolute_shap": 0.015376687368036351,
+              "mean_signed_shap": 0.0006648238515211552,
+              "normalized_share": 0.03986179838449139,
+              "rank": 10
+            },
+            {
+              "feature": "vix_log_change_5d",
+              "mean_absolute_shap": 0.011070623837410344,
+              "mean_signed_shap": 0.0003357729519199494,
+              "normalized_share": 0.028698962581155098,
+              "rank": 11
+            },
+            {
+              "feature": "vix_close",
+              "mean_absolute_shap": 0.01047324880174642,
+              "mean_signed_shap": -0.0048123174762013145,
+              "normalized_share": 0.027150355741357938,
+              "rank": 12
+            },
+            {
+              "feature": "return_std_5d",
+              "mean_absolute_shap": 0.006783037276278841,
+              "mean_signed_shap": -0.0011494554869333803,
+              "normalized_share": 0.01758402560122061,
+              "rank": 13
+            },
+            {
+              "feature": "compounded_return_21d",
+              "mean_absolute_shap": 0.006076498696382565,
+              "mean_signed_shap": -0.0005503695715368867,
+              "normalized_share": 0.01575242834307288,
+              "rank": 14
+            },
+            {
+              "feature": "compounded_return_5d",
+              "mean_absolute_shap": 0.005705374572823709,
+              "mean_signed_shap": -6.10614425316128e-05,
+              "normalized_share": 0.014790343686290697,
+              "rank": 15
+            },
+            {
+              "feature": "vix_log_change_1d",
+              "mean_absolute_shap": 0.0004205553516733638,
+              "mean_signed_shap": 1.71665219938092e-05,
+              "normalized_share": 0.0010902278388497486,
+              "rank": 16
+            }
+          ],
+          "groups": [
+            {
+              "features": [
+                "return_std_5d",
+                "return_std_21d",
+                "return_std_63d",
+                "return_std_126d",
+                "return_std_252d",
+                "mean_abs_return_5d",
+                "mean_abs_return_21d",
+                "mean_abs_return_63d",
+                "ewma_volatility_094"
+              ],
+              "group": "trailing_volatility",
+              "mean_absolute_net_contribution": 0.27214132375716943,
+              "mean_absolute_shap": 0.3211955788939719,
+              "normalized_share": 0.8326522547682221,
+              "rank": 1
+            },
+            {
+              "features": [
+                "compounded_return_5d",
+                "compounded_return_21d",
+                "compounded_return_63d"
+              ],
+              "group": "compounded_returns",
+              "mean_absolute_net_contribution": 0.02130651119935521,
+              "mean_absolute_shap": 0.027158560637242674,
+              "normalized_share": 0.0704045704138551,
+              "rank": 2
+            },
+            {
+              "features": [
+                "vix_log_change_1d",
+                "vix_log_change_5d",
+                "vix_log_change_21d"
+              ],
+              "group": "vix_changes",
+              "mean_absolute_net_contribution": 0.023172517883236963,
+              "mean_absolute_shap": 0.026922577579735922,
+              "normalized_share": 0.06979281907656487,
+              "rank": 3
+            },
+            {
+              "features": [
+                "vix_close"
+              ],
+              "group": "vix_level",
+              "mean_absolute_net_contribution": 0.010473248801746425,
+              "mean_absolute_shap": 0.010473248801746425,
+              "normalized_share": 0.027150355741357955,
+              "rank": 4
+            }
+          ],
+          "rows": 10000
+        }
+      },
+      "stability": {
+        "feature_rank_spearman": 0.9647058823529412,
+        "feature_top_5_overlap": {
+          "jaccard": 1.0,
+          "n": 5,
+          "shared": [
+            "ewma_volatility_094",
+            "mean_abs_return_21d",
+            "mean_abs_return_63d",
+            "return_std_126d",
+            "return_std_63d"
+          ]
+        },
+        "group_rank_spearman": 0.7999999999999999,
+        "group_top_2_overlap": {
+          "jaccard": 0.3333333333333333,
+          "n": 2,
+          "shared": [
+            "trailing_volatility"
+          ]
+        }
+      }
+    },
+    "xgboost": {
+      "max_absolute_additivity_error": 7.491791620850563e-06,
+      "max_absolute_frozen_forecast_error": 0.0,
+      "output_scale": "log forward 21-trading-day volatility",
+      "segments": {
+        "2015_2019": {
+          "features": [
+            {
+              "feature": "mean_abs_return_63d",
+              "mean_absolute_shap": 0.18533176288928155,
+              "mean_signed_shap": -0.0840916887696014,
+              "normalized_share": 0.3897090385190501,
+              "rank": 1
+            },
+            {
+              "feature": "mean_abs_return_21d",
+              "mean_absolute_shap": 0.06530028391684832,
+              "mean_signed_shap": -0.046578642752962536,
+              "normalized_share": 0.13731111420689837,
+              "rank": 2
+            },
+            {
+              "feature": "compounded_return_63d",
+              "mean_absolute_shap": 0.03157262643019256,
+              "mean_signed_shap": -0.0010976812249934192,
+              "normalized_share": 0.06638979577927,
+              "rank": 3
+            },
+            {
+              "feature": "return_std_252d",
+              "mean_absolute_shap": 0.03027721802643041,
+              "mean_signed_shap": -0.0058604603090369215,
+              "normalized_share": 0.06366585706714953,
+              "rank": 4
+            },
+            {
+              "feature": "vix_log_change_21d",
+              "mean_absolute_shap": 0.028441999980095382,
+              "mean_signed_shap": 0.0008234324886787563,
+              "normalized_share": 0.059806825840336565,
+              "rank": 5
+            },
+            {
+              "feature": "vix_log_change_5d",
+              "mean_absolute_shap": 0.02251740466284108,
+              "mean_signed_shap": -0.000261117882181471,
+              "normalized_share": 0.04734879755254126,
+              "rank": 6
+            },
+            {
+              "feature": "mean_abs_return_5d",
+              "mean_absolute_shap": 0.02107847930312864,
+              "mean_signed_shap": -0.005783796377580064,
+              "normalized_share": 0.04432307649052765,
+              "rank": 7
+            },
+            {
+              "feature": "return_std_63d",
+              "mean_absolute_shap": 0.017680617734910347,
+              "mean_signed_shap": -0.005456179300091721,
+              "normalized_share": 0.03717817405109931,
+              "rank": 8
+            },
+            {
+              "feature": "vix_close",
+              "mean_absolute_shap": 0.017188235246476433,
+              "mean_signed_shap": 0.0023696277919325855,
+              "normalized_share": 0.036142809669086534,
+              "rank": 9
+            },
+            {
+              "feature": "return_std_126d",
+              "mean_absolute_shap": 0.011870962052723139,
+              "mean_signed_shap": -0.006628674596459204,
+              "normalized_share": 0.02496183673937532,
+              "rank": 10
+            },
+            {
+              "feature": "compounded_return_5d",
+              "mean_absolute_shap": 0.010655968131342985,
+              "mean_signed_shap": -4.913109660373914e-05,
+              "normalized_share": 0.022406990740363165,
+              "rank": 11
+            },
+            {
+              "feature": "return_std_21d",
+              "mean_absolute_shap": 0.01032321481027137,
+              "mean_signed_shap": -0.005927492494244013,
+              "normalized_share": 0.021707288893269044,
+              "rank": 12
+            },
+            {
+              "feature": "return_std_5d",
+              "mean_absolute_shap": 0.008607571403416002,
+              "mean_signed_shap": 0.0010968566856865447,
+              "normalized_share": 0.018099694964933185,
+              "rank": 13
+            },
+            {
+              "feature": "ewma_volatility_094",
+              "mean_absolute_shap": 0.008038421299014092,
+              "mean_signed_shap": -0.007731777816048723,
+              "normalized_share": 0.01690290637078383,
+              "rank": 14
+            },
+            {
+              "feature": "compounded_return_21d",
+              "mean_absolute_shap": 0.0035018795656177435,
+              "mean_signed_shap": -0.0007343990313959934,
+              "normalized_share": 0.007363627784308559,
+              "rank": 15
+            },
+            {
+              "feature": "vix_log_change_1d",
+              "mean_absolute_shap": 0.003177800251745335,
+              "mean_signed_shap": 0.0002054761856858546,
+              "normalized_share": 0.006682165331007555,
+              "rank": 16
+            }
+          ],
+          "groups": [
+            {
+              "features": [
+                "return_std_5d",
+                "return_std_21d",
+                "return_std_63d",
+                "return_std_126d",
+                "return_std_252d",
+                "mean_abs_return_5d",
+                "mean_abs_return_21d",
+                "mean_abs_return_63d",
+                "ewma_volatility_094"
+              ],
+              "group": "trailing_volatility",
+              "mean_absolute_net_contribution": 0.2794985563181323,
+              "mean_absolute_shap": 0.3585085314360239,
+              "normalized_share": 0.7538589873030863,
+              "rank": 1
+            },
+            {
+              "features": [
+                "vix_log_change_1d",
+                "vix_log_change_5d",
+                "vix_log_change_21d"
+              ],
+              "group": "vix_changes",
+              "mean_absolute_net_contribution": 0.043870058694454345,
+              "mean_absolute_shap": 0.054137204894681795,
+              "normalized_share": 0.11383778872388538,
+              "rank": 2
+            },
+            {
+              "features": [
+                "compounded_return_5d",
+                "compounded_return_21d",
+                "compounded_return_63d"
+              ],
+              "group": "compounded_returns",
+              "mean_absolute_net_contribution": 0.03682833737923329,
+              "mean_absolute_shap": 0.04573047412715329,
+              "normalized_share": 0.09616041430394172,
+              "rank": 3
+            },
+            {
+              "features": [
+                "vix_close"
+              ],
+              "group": "vix_level",
+              "mean_absolute_net_contribution": 0.017188235246476433,
+              "mean_absolute_shap": 0.017188235246476433,
+              "normalized_share": 0.036142809669086534,
+              "rank": 4
+            }
+          ],
+          "rows": 5012
+        },
+        "2020_2024": {
+          "features": [
+            {
+              "feature": "mean_abs_return_63d",
+              "mean_absolute_shap": 0.2049226545780693,
+              "mean_signed_shap": 0.06409185434980318,
+              "normalized_share": 0.38670250181788834,
+              "rank": 1
+            },
+            {
+              "feature": "mean_abs_return_21d",
+              "mean_absolute_shap": 0.06774659496147879,
+              "mean_signed_shap": -0.0033488358256388226,
+              "normalized_share": 0.1278422720766895,
+              "rank": 2
+            },
+            {
+              "feature": "compounded_return_63d",
+              "mean_absolute_shap": 0.03814190296038822,
+              "mean_signed_shap": 0.0017531530306962404,
+              "normalized_share": 0.07197627480107675,
+              "rank": 3
+            },
+            {
+              "feature": "vix_log_change_21d",
+              "mean_absolute_shap": 0.03745550957630987,
+              "mean_signed_shap": 0.0014622190004949134,
+              "normalized_share": 0.07068100542541472,
+              "rank": 4
+            },
+            {
+              "feature": "return_std_252d",
+              "mean_absolute_shap": 0.02895591994400759,
+              "mean_signed_shap": 0.017907748475157984,
+              "normalized_share": 0.05464172181373136,
+              "rank": 5
+            },
+            {
+              "feature": "return_std_63d",
+              "mean_absolute_shap": 0.023692967718695713,
+              "mean_signed_shap": -0.009641083261302976,
+              "normalized_share": 0.04471018546570509,
+              "rank": 6
+            },
+            {
+              "feature": "vix_log_change_5d",
+              "mean_absolute_shap": 0.022948958643179924,
+              "mean_signed_shap": -0.0006773549588193862,
+              "normalized_share": 0.04330619149798318,
+              "rank": 7
+            },
+            {
+              "feature": "vix_close",
+              "mean_absolute_shap": 0.02209421377026405,
+              "mean_signed_shap": 0.0014190324657665085,
+              "normalized_share": 0.04169323181105574,
+              "rank": 8
+            },
+            {
+              "feature": "mean_abs_return_5d",
+              "mean_absolute_shap": 0.021653635567425243,
+              "mean_signed_shap": 0.00555008147169698,
+              "normalized_share": 0.04086183181950777,
+              "rank": 9
+            },
+            {
+              "feature": "return_std_21d",
+              "mean_absolute_shap": 0.01390136516322534,
+              "mean_signed_shap": -0.01154869242624079,
+              "normalized_share": 0.02623278865077995,
+              "rank": 10
+            },
+            {
+              "feature": "compounded_return_5d",
+              "mean_absolute_shap": 0.012479606052374546,
+              "mean_signed_shap": 0.0010465402484451647,
+              "normalized_share": 0.023549835873887624,
+              "rank": 11
+            },
+            {
+              "feature": "return_std_126d",
+              "mean_absolute_shap": 0.010347005426279204,
+              "mean_signed_shap": -0.004482397507804716,
+              "normalized_share": 0.01952547849286763,
+              "rank": 12
+            },
+            {
+              "feature": "ewma_volatility_094",
+              "mean_absolute_shap": 0.008852499432047809,
+              "mean_signed_shap": -0.007225987241083346,
+              "normalized_share": 0.016705247571396048,
+              "rank": 13
+            },
+            {
+              "feature": "return_std_5d",
+              "mean_absolute_shap": 0.008564009497834018,
+              "mean_signed_shap": 0.004202414940080835,
+              "normalized_share": 0.016160848126935162,
+              "rank": 14
+            },
+            {
+              "feature": "compounded_return_21d",
+              "mean_absolute_shap": 0.005322848043023764,
+              "mean_signed_shap": -0.0006423813517551307,
+              "normalized_share": 0.010044563688050257,
+              "rank": 15
+            },
+            {
+              "feature": "vix_log_change_1d",
+              "mean_absolute_shap": 0.002843579434858763,
+              "mean_signed_shap": 0.000149763061869497,
+              "normalized_share": 0.005366021067030728,
+              "rank": 16
+            }
+          ],
+          "groups": [
+            {
+              "features": [
+                "return_std_5d",
+                "return_std_21d",
+                "return_std_63d",
+                "return_std_126d",
+                "return_std_252d",
+                "mean_abs_return_5d",
+                "mean_abs_return_21d",
+                "mean_abs_return_63d",
+                "ewma_volatility_094"
+              ],
+              "group": "trailing_volatility",
+              "mean_absolute_net_contribution": 0.26736488969837935,
+              "mean_absolute_shap": 0.38863665228906297,
+              "normalized_share": 0.7333828758355009,
+              "rank": 1
+            },
+            {
+              "features": [
+                "vix_log_change_1d",
+                "vix_log_change_5d",
+                "vix_log_change_21d"
+              ],
+              "group": "vix_changes",
+              "mean_absolute_net_contribution": 0.05136620830786362,
+              "mean_absolute_shap": 0.06324804765434856,
+              "normalized_share": 0.11935321799042867,
+              "rank": 2
+            },
+            {
+              "features": [
+                "compounded_return_5d",
+                "compounded_return_21d",
+                "compounded_return_63d"
+              ],
+              "group": "compounded_returns",
+              "mean_absolute_net_contribution": 0.04423713431945475,
+              "mean_absolute_shap": 0.05594435705578653,
+              "normalized_share": 0.10557067436301466,
+              "rank": 3
+            },
+            {
+              "features": [
+                "vix_close"
+              ],
+              "group": "vix_level",
+              "mean_absolute_net_contribution": 0.02209421377026405,
+              "mean_absolute_shap": 0.02209421377026405,
+              "normalized_share": 0.041693231811055755,
+              "rank": 4
+            }
+          ],
+          "rows": 4988
+        },
+        "overall": {
+          "features": [
+            {
+              "feature": "mean_abs_return_63d",
+              "mean_absolute_shap": 0.19510369966364888,
+              "mean_signed_shap": -0.010177737461642392,
+              "normalized_share": 0.38812809801957154,
+              "rank": 1
+            },
+            {
+              "feature": "mean_abs_return_21d",
+              "mean_absolute_shap": 0.06652050386590999,
+              "mean_signed_shap": -0.025015615057613468,
+              "normalized_share": 0.13233207104370262,
+              "rank": 2
+            },
+            {
+              "feature": "compounded_return_63d",
+              "mean_absolute_shap": 0.03484938156345415,
+              "mean_signed_shap": 0.00032431490174458306,
+              "normalized_share": 0.06932735876715877,
+              "rank": 3
+            },
+            {
+              "feature": "vix_log_change_21d",
+              "mean_absolute_shap": 0.03293793856668717,
+              "mean_signed_shap": 0.0011420592007726554,
+              "normalized_share": 0.06552484381697087,
+              "rank": 4
+            },
+            {
+              "feature": "return_std_252d",
+              "mean_absolute_shap": 0.02961815454291791,
+              "mean_signed_shap": 0.005995122232519498,
+              "normalized_share": 0.05892065608909769,
+              "rank": 5
+            },
+            {
+              "feature": "vix_log_change_5d",
+              "mean_absolute_shap": 0.022732663788234096,
+              "mean_signed_shap": -0.0004687369360084631,
+              "normalized_share": 0.045223056119676426,
+              "rank": 6
+            },
+            {
+              "feature": "mean_abs_return_5d",
+              "mean_absolute_shap": 0.021365367247759788,
+              "mean_signed_shap": -0.0001304581063606747,
+              "normalized_share": 0.04250303488687605,
+              "rank": 7
+            },
+            {
+              "feature": "return_std_63d",
+              "mean_absolute_shap": 0.020679577906822486,
+              "mean_signed_shap": -0.007543609395943895,
+              "normalized_share": 0.04113876494735688,
+              "rank": 8
+            },
+            {
+              "feature": "vix_close",
+              "mean_absolute_shap": 0.019635337334141696,
+              "mean_signed_shap": 0.001895470843240946,
+              "normalized_share": 0.03906141270827489,
+              "rank": 9
+            },
+            {
+              "feature": "return_std_21d",
+              "mean_absolute_shap": 0.01210799620632481,
+              "mean_signed_shap": -0.008731347020324005,
+              "normalized_share": 0.02408695245908053,
+              "rank": 10
+            },
+            {
+              "feature": "compounded_return_5d",
+              "mean_absolute_shap": 0.011565598726353528,
+              "mean_signed_shap": 0.0004973897703066541,
+              "normalized_share": 0.023007938054767384,
+              "rank": 11
+            },
+            {
+              "feature": "return_std_126d",
+              "mean_absolute_shap": 0.011110812487452904,
+              "mean_signed_shap": -0.005558111584638346,
+              "normalized_share": 0.022103212423145436,
+              "rank": 12
+            },
+            {
+              "feature": "return_std_5d",
+              "mean_absolute_shap": 0.008585842724911709,
+              "mean_signed_shap": 0.0026459091429784165,
+              "normalized_share": 0.01708018255143339,
+              "rank": 13
+            },
+            {
+              "feature": "ewma_volatility_094",
+              "mean_absolute_shap": 0.008444483471771309,
+              "mean_signed_shap": -0.007479489477255993,
+              "normalized_share": 0.016798970569531273,
+              "rank": 14
+            },
+            {
+              "feature": "compounded_return_21d",
+              "mean_absolute_shap": 0.004410178642147867,
+              "mean_signed_shap": -0.0006885006127911311,
+              "normalized_share": 0.008773356175481636,
+              "rank": 15
+            },
+            {
+              "feature": "vix_log_change_1d",
+              "mean_absolute_shap": 0.0030110909082823128,
+              "mean_signed_shap": 0.00017768647952625543,
+              "normalized_share": 0.005990091367874684,
+              "rank": 16
+            }
+          ],
+          "groups": [
+            {
+              "features": [
+                "return_std_5d",
+                "return_std_21d",
+                "return_std_63d",
+                "return_std_126d",
+                "return_std_252d",
+                "mean_abs_return_5d",
+                "mean_abs_return_21d",
+                "mean_abs_return_63d",
+                "ewma_volatility_094"
+              ],
+              "group": "trailing_volatility",
+              "mean_absolute_net_contribution": 0.27344628340819954,
+              "mean_absolute_shap": 0.3735364381175197,
+              "normalized_share": 0.7430919429897953,
+              "rank": 1
+            },
+            {
+              "features": [
+                "vix_log_change_1d",
+                "vix_log_change_5d",
+                "vix_log_change_21d"
+              ],
+              "group": "vix_changes",
+              "mean_absolute_net_contribution": 0.04760913812162289,
+              "mean_absolute_shap": 0.05868169326320358,
+              "normalized_share": 0.11673799130452199,
+              "rank": 2
+            },
+            {
+              "features": [
+                "compounded_return_5d",
+                "compounded_return_21d",
+                "compounded_return_63d"
+              ],
+              "group": "compounded_returns",
+              "mean_absolute_net_contribution": 0.04052384529301575,
+              "mean_absolute_shap": 0.05082515893195554,
+              "normalized_share": 0.10110865299740782,
+              "rank": 3
+            },
+            {
+              "features": [
+                "vix_close"
+              ],
+              "group": "vix_level",
+              "mean_absolute_net_contribution": 0.019635337334141696,
+              "mean_absolute_shap": 0.019635337334141696,
+              "normalized_share": 0.039061412708274894,
+              "rank": 4
+            }
+          ],
+          "rows": 10000
+        }
+      },
+      "stability": {
+        "feature_rank_spearman": 0.9676470588235294,
+        "feature_top_5_overlap": {
+          "jaccard": 1.0,
+          "n": 5,
+          "shared": [
+            "compounded_return_63d",
+            "mean_abs_return_21d",
+            "mean_abs_return_63d",
+            "return_std_252d",
+            "vix_log_change_21d"
+          ]
+        },
+        "group_rank_spearman": 1.0,
+        "group_top_2_overlap": {
+          "jaccard": 1.0,
+          "n": 2,
+          "shared": [
+            "trailing_volatility",
+            "vix_changes"
+          ]
+        }
+      }
+    }
+  },
+  "population": {
+    "rows": 1206821,
+    "strata": [
+      {
+        "population_rows": 41463,
+        "sample_rows": 344,
+        "vix_regime": "low",
+        "year": 2015
+      },
+      {
+        "population_rows": 59731,
+        "sample_rows": 495,
+        "vix_regime": "middle",
+        "year": 2015
+      },
+      {
+        "population_rows": 17355,
+        "sample_rows": 144,
+        "vix_regime": "high",
+        "year": 2015
+      },
+      {
+        "population_rows": 60073,
+        "sample_rows": 498,
+        "vix_regime": "low",
+        "year": 2016
+      },
+      {
+        "population_rows": 43677,
+        "sample_rows": 362,
+        "vix_regime": "middle",
+        "year": 2016
+      },
+      {
+        "population_rows": 16053,
+        "sample_rows": 134,
+        "vix_regime": "high",
+        "year": 2016
+      },
+      {
+        "population_rows": 115470,
+        "sample_rows": 955,
+        "vix_regime": "low",
+        "year": 2017
+      },
+      {
+        "population_rows": 5804,
+        "sample_rows": 49,
+        "vix_regime": "middle",
+        "year": 2017
+      },
+      {
+        "population_rows": 52564,
+        "sample_rows": 435,
+        "vix_regime": "low",
+        "year": 2018
+      },
+      {
+        "population_rows": 46636,
+        "sample_rows": 386,
+        "vix_regime": "middle",
+        "year": 2018
+      },
+      {
+        "population_rows": 22793,
+        "sample_rows": 189,
+        "vix_regime": "high",
+        "year": 2018
+      },
+      {
+        "population_rows": 50268,
+        "sample_rows": 416,
+        "vix_regime": "low",
+        "year": 2019
+      },
+      {
+        "population_rows": 68438,
+        "sample_rows": 567,
+        "vix_regime": "middle",
+        "year": 2019
+      },
+      {
+        "population_rows": 4410,
+        "sample_rows": 38,
+        "vix_regime": "high",
+        "year": 2019
+      },
+      {
+        "population_rows": 8859,
+        "sample_rows": 74,
+        "vix_regime": "low",
+        "year": 2020
+      },
+      {
+        "population_rows": 9354,
+        "sample_rows": 78,
+        "vix_regime": "middle",
+        "year": 2020
+      },
+      {
+        "population_rows": 105838,
+        "sample_rows": 876,
+        "vix_regime": "high",
+        "year": 2020
+      },
+      {
+        "population_rows": 82559,
+        "sample_rows": 683,
+        "vix_regime": "middle",
+        "year": 2021
+      },
+      {
+        "population_rows": 39863,
+        "sample_rows": 331,
+        "vix_regime": "high",
+        "year": 2021
+      },
+      {
+        "population_rows": 16103,
+        "sample_rows": 134,
+        "vix_regime": "middle",
+        "year": 2022
+      },
+      {
+        "population_rows": 106205,
+        "sample_rows": 879,
+        "vix_regime": "high",
+        "year": 2022
+      },
+      {
+        "population_rows": 36330,
+        "sample_rows": 301,
+        "vix_regime": "low",
+        "year": 2023
+      },
+      {
+        "population_rows": 72162,
+        "sample_rows": 597,
+        "vix_regime": "middle",
+        "year": 2023
+      },
+      {
+        "population_rows": 12591,
+        "sample_rows": 105,
+        "vix_regime": "high",
+        "year": 2023
+      },
+      {
+        "population_rows": 48656,
+        "sample_rows": 403,
+        "vix_regime": "low",
+        "year": 2024
+      },
+      {
+        "population_rows": 56779,
+        "sample_rows": 470,
+        "vix_regime": "middle",
+        "year": 2024
+      },
+      {
+        "population_rows": 6787,
+        "sample_rows": 57,
+        "vix_regime": "high",
+        "year": 2024
+      }
+    ]
+  },
+  "sample": {
+    "key_sha256": "5938bd766426e8b42b10b1f54a06bcb669f07e21032480a6054d035c62a6f185",
+    "origin_end": "2024-11-29",
+    "origin_start": "2015-01-02",
+    "permnos": 665,
+    "rows": 10000,
+    "values_path": "interpretability/results/shap_values.parquet"
+  },
+  "schema_version": 1,
+  "versions": {
+    "numpy": "2.5.1",
+    "pandas": "2.2.3",
+    "scikit-learn": "1.9.0",
+    "shap": "0.52.0",
+    "xgboost": "3.4.1"
+  }
+}
