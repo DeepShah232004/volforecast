@@ -1,0 +1,330 @@
+{
+  "candidates": [
+    {
+      "candidate_id": "random_forest_01",
+      "completed_utc": "2026-09-05T07:11:52.670262+00:00",
+      "fit_and_score_seconds": 91.949,
+      "params": {
+        "max_depth": 8,
+        "max_features": "sqrt",
+        "min_samples_leaf": 20
+      },
+      "validation_metrics": {
+        "mae": 0.0034263758214875028,
+        "qlike": 0.2728531269095443,
+        "rmse": 0.005315931704111949
+      }
+    },
+    {
+      "candidate_id": "random_forest_02",
+      "completed_utc": "2026-09-05T07:14:21.273031+00:00",
+      "fit_and_score_seconds": 148.532,
+      "params": {
+        "max_depth": 8,
+        "max_features": 0.5,
+        "min_samples_leaf": 20
+      },
+      "validation_metrics": {
+        "mae": 0.003428422176525438,
+        "qlike": 0.2748149321550734,
+        "rmse": 0.005325659064983413
+      }
+    },
+    {
+      "candidate_id": "random_forest_03",
+      "completed_utc": "2026-09-05T07:15:38.720059+00:00",
+      "fit_and_score_seconds": 77.399,
+      "params": {
+        "max_depth": 8,
+        "max_features": "sqrt",
+        "min_samples_leaf": 100
+      },
+      "validation_metrics": {
+        "mae": 0.0034256072372034407,
+        "qlike": 0.27344942358343066,
+        "rmse": 0.0053151114797097155
+      }
+    },
+    {
+      "candidate_id": "random_forest_04",
+      "completed_utc": "2026-09-05T07:18:01.759761+00:00",
+      "fit_and_score_seconds": 142.988,
+      "params": {
+        "max_depth": 8,
+        "max_features": 0.5,
+        "min_samples_leaf": 100
+      },
+      "validation_metrics": {
+        "mae": 0.0034272343863677966,
+        "qlike": 0.27524571431193573,
+        "rmse": 0.005323323280927313
+      }
+    },
+    {
+      "candidate_id": "random_forest_05",
+      "completed_utc": "2026-09-05T07:20:07.143763+00:00",
+      "fit_and_score_seconds": 125.329,
+      "params": {
+        "max_depth": 16,
+        "max_features": "sqrt",
+        "min_samples_leaf": 20
+      },
+      "validation_metrics": {
+        "mae": 0.0033823533808485925,
+        "qlike": 0.274484722697514,
+        "rmse": 0.005283565412325474
+      }
+    },
+    {
+      "candidate_id": "random_forest_06",
+      "completed_utc": "2026-09-05T07:24:17.511239+00:00",
+      "fit_and_score_seconds": 250.264,
+      "params": {
+        "max_depth": 16,
+        "max_features": 0.5,
+        "min_samples_leaf": 20
+      },
+      "validation_metrics": {
+        "mae": 0.0033948005349626,
+        "qlike": 0.2779161318387295,
+        "rmse": 0.0052991600454369535
+      }
+    },
+    {
+      "candidate_id": "random_forest_07",
+      "completed_utc": "2026-09-05T07:26:15.410985+00:00",
+      "fit_and_score_seconds": 117.803,
+      "params": {
+        "max_depth": 16,
+        "max_features": "sqrt",
+        "min_samples_leaf": 100
+      },
+      "validation_metrics": {
+        "mae": 0.003384318406423139,
+        "qlike": 0.27483828963744505,
+        "rmse": 0.005285691454880037
+      }
+    },
+    {
+      "candidate_id": "random_forest_08",
+      "completed_utc": "2026-09-05T07:30:01.484323+00:00",
+      "fit_and_score_seconds": 226.013,
+      "params": {
+        "max_depth": 16,
+        "max_features": 0.5,
+        "min_samples_leaf": 100
+      },
+      "validation_metrics": {
+        "mae": 0.0033945567166197405,
+        "qlike": 0.27800441861658126,
+        "rmse": 0.005302231031477359
+      }
+    },
+    {
+      "candidate_id": "random_forest_09",
+      "completed_utc": "2026-09-05T07:32:34.433482+00:00",
+      "fit_and_score_seconds": 152.883,
+      "params": {
+        "max_depth": null,
+        "max_features": "sqrt",
+        "min_samples_leaf": 20
+      },
+      "validation_metrics": {
+        "mae": 0.0033907340009913206,
+        "qlike": 0.2768009745972029,
+        "rmse": 0.005288662930403837
+      }
+    },
+    {
+      "candidate_id": "random_forest_10",
+      "completed_utc": "2026-09-05T07:37:10.213571+00:00",
+      "fit_and_score_seconds": 275.375,
+      "params": {
+        "max_depth": null,
+        "max_features": 0.5,
+        "min_samples_leaf": 20
+      },
+      "validation_metrics": {
+        "mae": 0.0034069863677843237,
+        "qlike": 0.2812494123440933,
+        "rmse": 0.005307774747384568
+      }
+    },
+    {
+      "candidate_id": "random_forest_11",
+      "completed_utc": "2026-09-05T07:39:19.968169+00:00",
+      "fit_and_score_seconds": 129.604,
+      "params": {
+        "max_depth": null,
+        "max_features": "sqrt",
+        "min_samples_leaf": 100
+      },
+      "validation_metrics": {
+        "mae": 0.00338522375125616,
+        "qlike": 0.27550771956022796,
+        "rmse": 0.005286162788189886
+      }
+    },
+    {
+      "candidate_id": "random_forest_12",
+      "completed_utc": "2026-09-05T07:43:20.958619+00:00",
+      "fit_and_score_seconds": 240.901,
+      "params": {
+        "max_depth": null,
+        "max_features": 0.5,
+        "min_samples_leaf": 100
+      },
+      "validation_metrics": {
+        "mae": 0.003394532637988495,
+        "qlike": 0.27879194054260964,
+        "rmse": 0.00530311645319567
+      }
+    }
+  ],
+  "created_utc": "2026-09-05T07:10:20.404883+00:00",
+  "feature_columns": [
+    "return_std_5d",
+    "return_std_21d",
+    "return_std_63d",
+    "return_std_126d",
+    "return_std_252d",
+    "mean_abs_return_5d",
+    "mean_abs_return_21d",
+    "mean_abs_return_63d",
+    "compounded_return_5d",
+    "compounded_return_21d",
+    "compounded_return_63d",
+    "ewma_volatility_094",
+    "vix_close",
+    "vix_log_change_1d",
+    "vix_log_change_5d",
+    "vix_log_change_21d"
+  ],
+  "final_fit": null,
+  "grid": [
+    {
+      "candidate_id": "random_forest_01",
+      "params": {
+        "max_depth": 8,
+        "max_features": "sqrt",
+        "min_samples_leaf": 20
+      }
+    },
+    {
+      "candidate_id": "random_forest_02",
+      "params": {
+        "max_depth": 8,
+        "max_features": 0.5,
+        "min_samples_leaf": 20
+      }
+    },
+    {
+      "candidate_id": "random_forest_03",
+      "params": {
+        "max_depth": 8,
+        "max_features": "sqrt",
+        "min_samples_leaf": 100
+      }
+    },
+    {
+      "candidate_id": "random_forest_04",
+      "params": {
+        "max_depth": 8,
+        "max_features": 0.5,
+        "min_samples_leaf": 100
+      }
+    },
+    {
+      "candidate_id": "random_forest_05",
+      "params": {
+        "max_depth": 16,
+        "max_features": "sqrt",
+        "min_samples_leaf": 20
+      }
+    },
+    {
+      "candidate_id": "random_forest_06",
+      "params": {
+        "max_depth": 16,
+        "max_features": 0.5,
+        "min_samples_leaf": 20
+      }
+    },
+    {
+      "candidate_id": "random_forest_07",
+      "params": {
+        "max_depth": 16,
+        "max_features": "sqrt",
+        "min_samples_leaf": 100
+      }
+    },
+    {
+      "candidate_id": "random_forest_08",
+      "params": {
+        "max_depth": 16,
+        "max_features": 0.5,
+        "min_samples_leaf": 100
+      }
+    },
+    {
+      "candidate_id": "random_forest_09",
+      "params": {
+        "max_depth": null,
+        "max_features": "sqrt",
+        "min_samples_leaf": 20
+      }
+    },
+    {
+      "candidate_id": "random_forest_10",
+      "params": {
+        "max_depth": null,
+        "max_features": 0.5,
+        "min_samples_leaf": 20
+      }
+    },
+    {
+      "candidate_id": "random_forest_11",
+      "params": {
+        "max_depth": null,
+        "max_features": "sqrt",
+        "min_samples_leaf": 100
+      }
+    },
+    {
+      "candidate_id": "random_forest_12",
+      "params": {
+        "max_depth": null,
+        "max_features": 0.5,
+        "min_samples_leaf": 100
+      }
+    }
+  ],
+  "library": {
+    "name": "scikit-learn",
+    "version": "1.9.0"
+  },
+  "matrix_sha256": "8f0bc25ea84cabb074ab7f2be4168fc47707bbd93a549251d1dacae442f4429f",
+  "model": "random_forest",
+  "random_seed": 42,
+  "sample_counts": {
+    "final_refit": 1108846,
+    "test": 1234643,
+    "tuning_train": 859540,
+    "validation": 238982
+  },
+  "schema_version": 1,
+  "selected": {
+    "candidate_id": "random_forest_01",
+    "params": {
+      "max_depth": 8,
+      "max_features": "sqrt",
+      "min_samples_leaf": 20
+    },
+    "selected_utc": "2026-09-05T07:43:21.045010+00:00",
+    "validation_metrics": {
+      "mae": 0.0034263758214875028,
+      "qlike": 0.2728531269095443,
+      "rmse": 0.005315931704111949
+    }
+  }
+}

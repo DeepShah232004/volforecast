@@ -1,0 +1,256 @@
+{
+  "candidates": [
+    {
+      "best_rounds": 976,
+      "candidate_id": "xgboost_01",
+      "completed_utc": "2026-09-05T07:58:19.884153+00:00",
+      "early_stopping_log_rmse": 0.3307958228191053,
+      "fit_and_score_seconds": 8.823,
+      "params": {
+        "learning_rate": 0.03,
+        "max_depth": 3,
+        "min_child_weight": 5
+      },
+      "validation_metrics": {
+        "mae": 0.003399795982858519,
+        "qlike": 0.29238947293274964,
+        "rmse": 0.005341098326881134
+      }
+    },
+    {
+      "best_rounds": 1047,
+      "candidate_id": "xgboost_02",
+      "completed_utc": "2026-09-05T07:58:28.728313+00:00",
+      "early_stopping_log_rmse": 0.3310367196405711,
+      "fit_and_score_seconds": 8.782,
+      "params": {
+        "learning_rate": 0.03,
+        "max_depth": 3,
+        "min_child_weight": 20
+      },
+      "validation_metrics": {
+        "mae": 0.00340324773686324,
+        "qlike": 0.29289867295802996,
+        "rmse": 0.00534382022065788
+      }
+    },
+    {
+      "best_rounds": 265,
+      "candidate_id": "xgboost_03",
+      "completed_utc": "2026-09-05T07:58:32.812088+00:00",
+      "early_stopping_log_rmse": 0.33060614158885143,
+      "fit_and_score_seconds": 4.027,
+      "params": {
+        "learning_rate": 0.03,
+        "max_depth": 6,
+        "min_child_weight": 5
+      },
+      "validation_metrics": {
+        "mae": 0.0034048811676898314,
+        "qlike": 0.28520055263144345,
+        "rmse": 0.005327567191644052
+      }
+    },
+    {
+      "best_rounds": 205,
+      "candidate_id": "xgboost_04",
+      "completed_utc": "2026-09-05T07:58:36.544678+00:00",
+      "early_stopping_log_rmse": 0.33068776981732034,
+      "fit_and_score_seconds": 3.712,
+      "params": {
+        "learning_rate": 0.03,
+        "max_depth": 6,
+        "min_child_weight": 20
+      },
+      "validation_metrics": {
+        "mae": 0.00340498803033065,
+        "qlike": 0.2834791626742916,
+        "rmse": 0.0053256149495392955
+      }
+    },
+    {
+      "best_rounds": 441,
+      "candidate_id": "xgboost_05",
+      "completed_utc": "2026-09-05T07:58:40.691406+00:00",
+      "early_stopping_log_rmse": 0.3313010490286451,
+      "fit_and_score_seconds": 4.095,
+      "params": {
+        "learning_rate": 0.08,
+        "max_depth": 3,
+        "min_child_weight": 5
+      },
+      "validation_metrics": {
+        "mae": 0.003406219582082601,
+        "qlike": 0.2931338043454071,
+        "rmse": 0.005346406507303198
+      }
+    },
+    {
+      "best_rounds": 337,
+      "candidate_id": "xgboost_06",
+      "completed_utc": "2026-09-05T07:58:44.021928+00:00",
+      "early_stopping_log_rmse": 0.3317288729592952,
+      "fit_and_score_seconds": 3.308,
+      "params": {
+        "learning_rate": 0.08,
+        "max_depth": 3,
+        "min_child_weight": 20
+      },
+      "validation_metrics": {
+        "mae": 0.0034109981535883458,
+        "qlike": 0.2921199123014891,
+        "rmse": 0.005348290839047094
+      }
+    },
+    {
+      "best_rounds": 165,
+      "candidate_id": "xgboost_07",
+      "completed_utc": "2026-09-05T07:58:46.935656+00:00",
+      "early_stopping_log_rmse": 0.3310734011761143,
+      "fit_and_score_seconds": 2.894,
+      "params": {
+        "learning_rate": 0.08,
+        "max_depth": 6,
+        "min_child_weight": 5
+      },
+      "validation_metrics": {
+        "mae": 0.0034076056743917,
+        "qlike": 0.28976197118112373,
+        "rmse": 0.00533857506161099
+      }
+    },
+    {
+      "best_rounds": 106,
+      "candidate_id": "xgboost_08",
+      "completed_utc": "2026-09-05T07:58:49.250448+00:00",
+      "early_stopping_log_rmse": 0.33106270221217593,
+      "fit_and_score_seconds": 2.295,
+      "params": {
+        "learning_rate": 0.08,
+        "max_depth": 6,
+        "min_child_weight": 20
+      },
+      "validation_metrics": {
+        "mae": 0.0034059991367216035,
+        "qlike": 0.2869498008186897,
+        "rmse": 0.005336575962827725
+      }
+    }
+  ],
+  "created_utc": "2026-09-05T07:58:10.511625+00:00",
+  "feature_columns": [
+    "return_std_5d",
+    "return_std_21d",
+    "return_std_63d",
+    "return_std_126d",
+    "return_std_252d",
+    "mean_abs_return_5d",
+    "mean_abs_return_21d",
+    "mean_abs_return_63d",
+    "compounded_return_5d",
+    "compounded_return_21d",
+    "compounded_return_63d",
+    "ewma_volatility_094",
+    "vix_close",
+    "vix_log_change_1d",
+    "vix_log_change_5d",
+    "vix_log_change_21d"
+  ],
+  "final_fit": null,
+  "grid": [
+    {
+      "candidate_id": "xgboost_01",
+      "params": {
+        "learning_rate": 0.03,
+        "max_depth": 3,
+        "min_child_weight": 5
+      }
+    },
+    {
+      "candidate_id": "xgboost_02",
+      "params": {
+        "learning_rate": 0.03,
+        "max_depth": 3,
+        "min_child_weight": 20
+      }
+    },
+    {
+      "candidate_id": "xgboost_03",
+      "params": {
+        "learning_rate": 0.03,
+        "max_depth": 6,
+        "min_child_weight": 5
+      }
+    },
+    {
+      "candidate_id": "xgboost_04",
+      "params": {
+        "learning_rate": 0.03,
+        "max_depth": 6,
+        "min_child_weight": 20
+      }
+    },
+    {
+      "candidate_id": "xgboost_05",
+      "params": {
+        "learning_rate": 0.08,
+        "max_depth": 3,
+        "min_child_weight": 5
+      }
+    },
+    {
+      "candidate_id": "xgboost_06",
+      "params": {
+        "learning_rate": 0.08,
+        "max_depth": 3,
+        "min_child_weight": 20
+      }
+    },
+    {
+      "candidate_id": "xgboost_07",
+      "params": {
+        "learning_rate": 0.08,
+        "max_depth": 6,
+        "min_child_weight": 5
+      }
+    },
+    {
+      "candidate_id": "xgboost_08",
+      "params": {
+        "learning_rate": 0.08,
+        "max_depth": 6,
+        "min_child_weight": 20
+      }
+    }
+  ],
+  "library": {
+    "name": "xgboost",
+    "version": "3.4.1"
+  },
+  "matrix_sha256": "8f0bc25ea84cabb074ab7f2be4168fc47707bbd93a549251d1dacae442f4429f",
+  "model": "xgboost",
+  "random_seed": 42,
+  "sample_counts": {
+    "final_refit": 1108846,
+    "test": 1234643,
+    "tuning_train": 859540,
+    "validation": 238982
+  },
+  "schema_version": 1,
+  "selected": {
+    "best_rounds": 205,
+    "candidate_id": "xgboost_04",
+    "early_stopping_log_rmse": 0.33068776981732034,
+    "params": {
+      "learning_rate": 0.03,
+      "max_depth": 6,
+      "min_child_weight": 20
+    },
+    "selected_utc": "2026-09-05T07:58:49.288461+00:00",
+    "validation_metrics": {
+      "mae": 0.00340498803033065,
+      "qlike": 0.2834791626742916,
+      "rmse": 0.0053256149495392955
+    }
+  }
+}
