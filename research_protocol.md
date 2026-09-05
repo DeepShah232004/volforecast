@@ -2,7 +2,7 @@
 
 ## When Does Machine Learning Improve Equity-Volatility Forecasts?
 
-**Status:** Version 1.3, locked for Phase 3 on 2026-09-04.
+**Status:** Version 1.4, locked for ML training on 2026-09-05.
 
 This document consolidates the original design and the amendments made while
 building the data and classical baselines. The three hypotheses remain
@@ -177,6 +177,12 @@ All model selection minimizes validation QLIKE. Random seed is 42.
 | Random Forest | 400 trees; max depth {8, 16, unlimited}; min leaf {20, 100}; max features {sqrt, 0.5}; bootstrap enabled |
 | XGBoost | squared-error objective on log volatility; histogram trees; 1,500-tree cap with 75-round early stopping; learning rate {0.03, 0.08}; max depth {3, 6}; min child weight {5, 20}; subsample 0.8; column subsample 0.8; L2 = 1 |
 
+XGBoost early stopping minimizes validation RMSE on the log-volatility target,
+which matches its squared-error training objective. The retained boosting round
+from each candidate is then scored in volatility units, and the candidate with
+the lowest validation QLIKE is selected. Random Forest candidates are likewise
+selected by validation QLIKE. Exact ties are broken by the fixed grid order.
+
 No additional model or feature is added because of test-period performance.
 
 ## 7. Splits and leakage controls
@@ -187,10 +193,13 @@ No additional model or feature is added because of test-period performance.
 
 Training rows whose target ends in 2013 or later are removed. Validation rows
 whose target ends in 2015 or later are removed. Thus no forward target crosses
-a split boundary. Hyperparameters are selected once on validation data and
-then refit on eligible 2005-2014 rows before producing one final 2015-2024
-forecast set. For XGBoost, the boosting-round count selected by validation
-early stopping is held fixed during the final refit.
+a split boundary during tuning. Hyperparameters are selected once on
+validation data and then refit on all finite member-origin rows whose target
+ends before 2015. The train-validation boundary purge is no longer needed for
+this combined refit, so otherwise-valid late-2012 rows are re-admitted; labels
+reaching 2015 remain excluded. The refitted models then produce one final
+2015-2024 forecast set. For XGBoost, the boosting-round count selected by
+validation early stopping is held fixed during the final refit.
 
 The test period is never used for feature selection, tuning, early stopping,
 missing-value decisions, or regime thresholds.
@@ -254,6 +263,7 @@ evaluate H1-H3.
 | 1.1 | Replaced the leakage-adjacent next trailing-window task with the genuine forward 21-return target; aligned H3 to that window. |
 | 1.2 | Retained pre-membership history for state/features while scoring only membership rows; adopted annual expanding GARCH fits and fit-time variance diagnostics. |
 | 1.3 | Fixed repeat-membership row expansion; made GARCH origin parameters and annual state initialization internally consistent; locked training-only VIX tertiles, event boundaries, ML features, splits, and inference. |
+| 1.4 | Fixed the ML execution rule: log-RMSE early stopping, QLIKE hyperparameter selection, deterministic tie-breaking, and a pre-2015 final refit that re-admits eligible train-boundary rows. |
 
 ## 12. Success criteria and limitations
 

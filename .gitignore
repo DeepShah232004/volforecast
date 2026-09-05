@@ -10,6 +10,8 @@ data/processed/
 *.csv
 *.parquet
 *.dta
+*.log
+models/ml/artifacts/
 .pgpass
 *.env
 .env
