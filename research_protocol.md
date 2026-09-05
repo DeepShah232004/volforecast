@@ -2,7 +2,7 @@
 
 ## When Does Machine Learning Improve Equity-Volatility Forecasts?
 
-**Status:** Version 1.5; final evaluation rules locked on 2026-09-05.
+**Status:** Version 1.5; confirmatory evaluation completed on 2026-09-05.
 
 This document consolidates the original design and the amendments made while
 building the data and classical baselines. The three hypotheses remain
@@ -274,16 +274,57 @@ locked validation sample. The QLIKE-selected specifications are now frozen:
 | XGBoost | learning rate 0.03; depth 6; min child weight 20; 205 rounds | 0.005325615 | 0.003404988 | **0.283479163** |
 
 Random Forest's validation QLIKE is 3.748% lower than XGBoost's. This is a
-model-selection result only, not evidence for H1 or H2. Test-period losses and
-conditional hypothesis results remain unopened.
+model-selection result only, not evidence for H1 or H2.
 
 Both selected specifications have now been refit on 1,108,846 combined
 pre-2015 rows. Each produced 1,234,643 positive, finite test forecasts with
 identical keys and targets. The final models and forecast files passed
-round-trip validation; test-period losses remain unopened.
+round-trip validation.
 
-Next: build the 1,206,821-row all-model comparison panel, run the locked final
-evaluation once, and report H1-H3 without specification changes.
+The single final out-of-sample evaluation used the common complete-case panel
+for all five models: **1,206,821 security-date forecasts**, covering **682
+securities** and **2,495 forecast-origin dates** from `2015-01-02` through
+`2024-11-29`. The saved result artifact is
+`evaluation/results/final_evaluation.json`; the final panel SHA-256 recorded
+there is
+`d13bb2f5373c9f65a0364d536e69fb6eb82d7bb8b7716621c27e5342b0fa4e2e`.
+
+Overall test-period performance:
+
+| Model | RMSE | MAE | QLIKE |
+|---|---:|---:|---:|
+| Persistence | 0.010497 | 0.006351 | 0.590578 |
+| EWMA | 0.009769 | 0.005929 | 0.469894 |
+| GARCH(1,1) | 0.009317 | 0.005906 | **0.379788** |
+| Random Forest | 0.008530 | 0.004897 | 0.404345 |
+| XGBoost | **0.008438** | **0.004859** | 0.396821 |
+
+GARCH produced the lowest overall QLIKE, the locked primary loss. XGBoost
+produced the lowest RMSE and MAE. Relative to GARCH, XGBoost improved RMSE by
+9.43% and MAE by 17.74%, but its QLIKE was 4.49% worse; Random Forest improved
+RMSE by 8.45% and MAE by 17.08%, but its QLIKE was 6.47% worse. These
+full-sample differences are descriptive because no paired overall superiority
+test was pre-registered.
+
+Confirmatory hypothesis decisions:
+
+| Hypothesis | Decision | Locked-test evidence |
+|---|---|---|
+| H1: ML improves on GARCH in high-VIX regimes | **Not supported** | The daily date-equal QLIKE advantage over GARCH was 0.00025 for Random Forest (95% block-bootstrap CI: -0.06053 to 0.03436) and 0.01563 for XGBoost (CI: -0.01518 to 0.04221). Neither lower bound exceeded zero; Newey-West p-values were 0.992 and 0.268. |
+| H2: Classical models remain competitive in low-VIX regimes | **Fully supported under the locked decision rule** | Relative QLIKE improvement over GARCH was -6.47% for Random Forest (CI: -22.54% to 9.41%) and -6.22% for XGBoost (CI: -22.71% to 10.09%). GARCH had the lower point-estimate QLIKE against both models, satisfying the pre-registered disjunctive rule. The intervals are wide and the Newey-West comparisons are not significant, so this supports competitiveness rather than precise equivalence. |
+| H3: Earnings-window forecasts are less accurate | **Fully supported** | For every model, the date-matched mean QLIKE difference (earnings minus non-earnings) was positive and its 95% block-bootstrap CI excluded zero: Persistence 0.58337 [0.36892, 0.97079], EWMA 0.30814 [0.23715, 0.39990], GARCH 0.07267 [0.03166, 0.12587], Random Forest 0.28099 [0.19777, 0.41235], and XGBoost 0.26000 [0.19776, 0.34340]. Newey-West tests also rejected equality for all five models. |
+
+H3 is based on the pre-registered within-date comparison, which compares
+earnings and non-earnings securities facing the same market date. For GARCH,
+the raw pooled subgroup averages move in the opposite direction because the
+composition of observations differs across groups; this does not change the
+locked within-date result, but it is a limitation that must be reported
+alongside it.
+
+Next: perform SHAP analysis on the frozen ML models, produce
+publication-quality tables and figures from the locked result artifact, and
+draft the research report. No model, feature, sample, or decision-rule changes
+are permitted in response to these test results.
 
 ## 11. Amendment log
 
