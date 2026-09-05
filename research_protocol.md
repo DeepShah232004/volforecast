@@ -2,7 +2,7 @@
 
 ## When Does Machine Learning Improve Equity-Volatility Forecasts?
 
-**Status:** Version 1.4; ML specifications selected and frozen on 2026-09-05.
+**Status:** Version 1.5; final evaluation rules locked on 2026-09-05.
 
 This document consolidates the original design and the amendments made while
 building the data and classical baselines. The three hypotheses remain
@@ -221,6 +221,20 @@ forecast date:
 The same date-block bootstrap produces 95% confidence intervals for RMSE, MAE,
 QLIKE, H1-H2 model differences, and H3 event/non-event differences.
 
+Headline metrics are pooled equally across constituent-day rows. Their
+bootstrap intervals resample non-circular blocks of 21 consecutive dates from
+the full test trading calendar and recompute the pooled statistic using all
+rows on each sampled date. VIX and earnings conditions are applied inside each
+replicate, preserving the clustering and spacing of those conditions.
+
+For H1 and H2, security-level QLIKE differences are averaged within date and
+then equally across eligible dates. Positive `GARCH loss - ML loss` favors ML.
+H2 divides this date-equal mean difference by date-equal mean GARCH QLIKE on
+low-VIX dates.
+For H3, the daily series is the within-date mean earnings-window QLIKE minus
+the within-date mean non-earnings QLIKE. Newey-West inference with lag 20 is
+applied to each finite conditional daily-difference series.
+
 ## 9. Interpretability
 
 SHAP is computed only after final model selection on a fixed 10,000-row test
@@ -263,9 +277,13 @@ Random Forest's validation QLIKE is 3.748% lower than XGBoost's. This is a
 model-selection result only, not evidence for H1 or H2. Test-period losses and
 conditional hypothesis results remain unopened.
 
-Next: refit both selected specifications on the combined pre-2015 sample,
-freeze test predictions, build the all-model comparison panel, and then
-evaluate H1-H3.
+Both selected specifications have now been refit on 1,108,846 combined
+pre-2015 rows. Each produced 1,234,643 positive, finite test forecasts with
+identical keys and targets. The final models and forecast files passed
+round-trip validation; test-period losses remain unopened.
+
+Next: build the 1,206,821-row all-model comparison panel, run the locked final
+evaluation once, and report H1-H3 without specification changes.
 
 ## 11. Amendment log
 
@@ -276,6 +294,7 @@ evaluate H1-H3.
 | 1.2 | Retained pre-membership history for state/features while scoring only membership rows; adopted annual expanding GARCH fits and fit-time variance diagnostics. |
 | 1.3 | Fixed repeat-membership row expansion; made GARCH origin parameters and annual state initialization internally consistent; locked training-only VIX tertiles, event boundaries, ML features, splits, and inference. |
 | 1.4 | Fixed the ML execution rule: log-RMSE early stopping, QLIKE hyperparameter selection, deterministic tie-breaking, and a pre-2015 final refit that re-admits eligible train-boundary rows. |
+| 1.5 | Locked full-calendar non-circular date-block resampling, pooled-metric intervals, date-equal H1-H2 loss differences, and within-date H3 event differences before test evaluation. |
 
 ## 12. Success criteria and limitations
 
