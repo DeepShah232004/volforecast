@@ -262,6 +262,12 @@ Phase 2 is complete. The common 2015-2024 classical sample has 1,207,514 rows,
 | EWMA | 0.009776251 | 0.005932379 | 0.470315067 |
 | GARCH(1,1) | **0.009321981** | **0.005909793** | **0.379852437** |
 
+These Phase 2 figures use the 1,207,514-row common classical-model sample. The
+headline results below use the 1,206,821-row five-model complete-case
+intersection, which removes 693 additional rows without valid ML inputs. That
+population change explains the small metric differences; the paper must use
+the final-panel figures as its headline results throughout.
+
 The evaluation panel contains 413,797 low-VIX, 461,617 middle-VIX, and
 332,100 high-VIX common rows. It contains 404,778 earnings-window and 802,736
 non-earnings-window rows. Conditional losses have not been inspected before
@@ -315,6 +321,13 @@ RMSE by 8.45% and MAE by 17.08%, but its QLIKE was 6.47% worse. These
 full-sample differences are descriptive because no paired overall superiority
 test was pre-registered.
 
+This distinction is the paper's central result: ML produces better point
+forecasts under the symmetric RMSE and MAE criteria, but it does not produce
+better risk forecasts under QLIKE, the asymmetric primary loss that more
+strongly penalizes volatility underestimation. The report abstract should
+state this synthesis directly rather than describing ML as an unconditional
+winner or loser.
+
 Confirmatory hypothesis decisions:
 
 | Hypothesis | Decision | Locked-test evidence |
@@ -324,11 +337,20 @@ Confirmatory hypothesis decisions:
 | H3: Earnings-window forecasts are less accurate | **Fully supported** | For every model, the date-matched mean QLIKE difference (earnings minus non-earnings) was positive and its 95% block-bootstrap CI excluded zero: Persistence 0.58337 [0.36892, 0.97079], EWMA 0.30814 [0.23715, 0.39990], GARCH 0.07267 [0.03166, 0.12587], Random Forest 0.28099 [0.19777, 0.41235], and XGBoost 0.26000 [0.19776, 0.34340]. Newey-West tests also rejected equality for all five models. |
 
 H3 is based on the pre-registered within-date comparison, which compares
-earnings and non-earnings securities facing the same market date. For GARCH,
-the raw pooled subgroup averages move in the opposite direction because the
-composition of observations differs across groups; this does not change the
-locked within-date result, but it is a limitation that must be reported
-alongside it.
+earnings and non-earnings securities facing the same market date. A notable
+descriptive finding is the size of GARCH's earnings penalty: 0.07267, compared
+with 0.26000 for XGBoost, the next-smallest estimate. GARCH's penalty is thus
+about 72% smaller, indicating substantially greater earnings-window robustness
+in the point estimates. The study did not pre-register a cross-model test of
+these penalty differences, so the magnitude should not be presented as a
+separately confirmed hypothesis. GARCH's dynamically updated, mean-reverting
+variance structure is one plausible explanation, not an identified mechanism.
+
+For GARCH, the raw pooled subgroup averages move in the opposite direction
+because the composition of observations differs across groups. This reversal
+is itself informative: it demonstrates why the locked within-date comparison
+is necessary to separate the earnings-window pattern from differences in the
+mix of market dates and securities.
 
 The locked SHAP analysis used 10,000 common-sample test rows across 665
 securities. Its sample-key SHA-256 is
@@ -373,6 +395,12 @@ are permitted in response to these results.
 | 1.4 | Fixed the ML execution rule: log-RMSE early stopping, QLIKE hyperparameter selection, deterministic tie-breaking, and a pre-2015 final refit that re-admits eligible train-boundary rows. |
 | 1.5 | Locked full-calendar non-circular date-block resampling, pooled-metric intervals, date-equal H1-H2 loss differences, and within-date H3 event differences before test evaluation. |
 | 1.6 | Before computing SHAP values, fixed the exact common-sample population, proportional year-by-regime allocation, log-output TreeSHAP scale, feature groups, and subperiod stability summaries. |
+
+The report will condense this log into a short **Validation and error
+correction** methods subsection. It should explain the forecast-timing,
+membership-population, duplicate-row, GARCH-boundary, numerical-stability, and
+inference corrections as evidence of the audit process, while making clear
+that each relevant rule was fixed before the results it governs were examined.
 
 ## 12. Success criteria and limitations
 
