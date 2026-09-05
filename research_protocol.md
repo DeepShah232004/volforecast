@@ -235,8 +235,16 @@ The evaluation panel contains 413,797 low-VIX, 461,617 middle-VIX, and
 non-earnings-window rows. Conditional losses have not been inspected before
 locking the Phase 3 specification.
 
-Next: construct the full feature matrix, train and select RF/XGBoost using only
-training/validation data, freeze predictions, and then evaluate H1-H3.
+The Phase 3 feature matrix is also complete. After requiring all locked
+predictors, a valid log target, actual membership at the forecast origin, and
+the split-boundary purge, it contains 859,540 training rows, 238,982 validation
+rows, and 1,234,643 test rows. Intersecting the test rows with valid forecasts
+from all three classical models leaves 1,206,821 final-comparison rows across
+682 PERMNOs.
+
+Next: train and select RF/XGBoost using only training/validation data, refit the
+selected specifications through 2014, freeze test predictions, and then
+evaluate H1-H3.
 
 ## 11. Amendment log
 
