@@ -156,7 +156,15 @@
     "vix_log_change_5d",
     "vix_log_change_21d"
   ],
-  "final_fit": null,
+  "final_fit": {
+    "boosting_rounds": 205,
+    "completed_utc": "2026-09-05T08:11:56.791273+00:00",
+    "fit_predict_save_seconds": 3.743,
+    "forecast_path": "models/ml/forecasts_xgboost.parquet",
+    "model_path": "models/ml/artifacts/xgboost_final.ubj",
+    "rows": 1108846,
+    "test_predictions": 1234643
+  },
   "grid": [
     {
       "candidate_id": "xgboost_01",

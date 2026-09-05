@@ -200,7 +200,14 @@
     "vix_log_change_5d",
     "vix_log_change_21d"
   ],
-  "final_fit": null,
+  "final_fit": {
+    "completed_utc": "2026-09-05T08:10:28.685887+00:00",
+    "fit_predict_save_seconds": 100.46,
+    "forecast_path": "models/ml/forecasts_random_forest.parquet",
+    "model_path": "models/ml/artifacts/random_forest_final.joblib",
+    "rows": 1108846,
+    "test_predictions": 1234643
+  },
   "grid": [
     {
       "candidate_id": "random_forest_01",
